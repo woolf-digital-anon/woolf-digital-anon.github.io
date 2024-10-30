@@ -1,7 +1,7 @@
 {
-  "name": "xmlviewer",
+  "name": "necturus-compact",
   "version": "0.1.0",
-  "homepage": "https://noonshin.github.io/Necturus-Viewer",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -11,7 +11,7 @@
     "@recogito/annotorious": "^2.7.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "axios": "^1.6.7",
+    "axios": "1.7.4",
     "babel-plugin-macros": "^3.1.0",
     "bootstrap": "^5.2.2",
     "CETEIcean": "^1.9.2",

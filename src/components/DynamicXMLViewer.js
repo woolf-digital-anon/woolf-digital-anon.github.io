@@ -6,6 +6,7 @@ import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
 import { scrollIntoView } from "seamless-scroll-polyfill";
 import {convertZonesToJson} from "../util/annotation-util"
 import axios from "axios";
+import {saveAs} from 'file-saver';
 
 
 export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones, dbUrl}) {
@@ -47,7 +48,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
         <Fragment>
             <div className="h-100 d-flex flex-column">
                 <div className="d-flex tools">
-                    <Button variant="light" title={'export XML'} onClick><FontAwesomeIcon icon={solid("file-export")} /></Button>
+                    <Button variant="light" title={'export XML'} onClick={() => exportXML(xmlText)}><FontAwesomeIcon icon={solid("file-export")} /></Button>
                     <Button variant="light" title={'drag and move'} className={'drag-handle'}><FontAwesomeIcon icon={solid("up-down-left-right")} /></Button>
 
                     <span className="ms-auto p-2 d-inline-flex">
@@ -167,13 +168,13 @@ const XmlHtmlRenderer = ({ xmlString, onSelection, setSelection, setAnnoZones })
     }, [xmlString]);
 
     useEffect(() => {
-        console.log("in selection", onSelection)
+        // console.log("in selection", onSelection)
         if (!xmlString) return;
         setSelectedElement(containerRef.current?.querySelector(`[facs="#${onSelection}"]`))
     }, [onSelection])
 
     useEffect(() => {
-        console.log("in elem", selectedElement)
+        // console.log("in elem", selectedElement)
         if (prevSelectedElement) prevSelectedElement.classList.remove("highlighted");
         if (selectedElement) {
             selectedElement.classList.add("highlighted");
@@ -184,3 +185,8 @@ const XmlHtmlRenderer = ({ xmlString, onSelection, setSelection, setAnnoZones })
 
     return <div ref={containerRef} onClick={handleClick} className={"xml-container"}>{xmlHtml}</div>;
 };
+
+const exportXML = (xmlString) => {
+    let blob = new Blob([xmlString], {type: "application/xml"})
+    saveAs(blob, 'file.xml')
+}

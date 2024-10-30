@@ -4,18 +4,13 @@ import ReactDOM from 'react-dom/client';
 import './assets/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, HashRouter} from "react-router-dom";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Using hash router because of GitHub Pages errors. Used to use BrowserRouter
 root.render(
-  // <React.StrictMode>
-      <HashRouter>
-          <App />
-      </HashRouter>
-  // </React.StrictMode>
+    <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

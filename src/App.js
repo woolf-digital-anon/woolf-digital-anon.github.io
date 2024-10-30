@@ -1,38 +1,22 @@
 import './assets/App.css';
 import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
-import {Routes, Route, Navigate} from "react-router-dom";
-import {Login} from "./components/Login";
-import ProtectedRoutes from "./components/ProtectedRoutes";
-import NotFound from "./components/NotFound";
 import {XMLViewerContainer} from "./components/XMLViewerContainer";
-import Cookies from "universal-cookie";
 import {Col, Container, Nav, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {brands} from '@fortawesome/fontawesome-svg-core/import.macro'
 import React from "react";
 import {Fragment} from "react";
-const cookies = new Cookies();
 
 function App() {
     return (
         <Fragment>
-            <Routes>
-                <Route path="/" element={cookies.get("TOKEN") ? <Navigate to='/edit' replace /> : <Login />} />
-                <Route path="/login" element={cookies.get("TOKEN") ? <Navigate to='/edit' replace /> : <Login />} />
-                <Route path="/edit" element={
-                    <ProtectedRoutes>
-                        <XMLViewerContainer />
-                    </ProtectedRoutes>
-                }
-                />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+            <XMLViewerContainer />
             <Nav className="bg-light fixed-bottom">
                 <Container>
                     <Row>
                         <Col className="align-self-center m-3">
-                            <a href="https://github.com/eXtant-CMG/Axolotl" target="_blank" className="text-muted text-decoration-none">
+                            <a href="https://github.com/eXtant-CMG/Necturus-Viewer-Compact" target="_blank" className="text-muted text-decoration-none">
                                 <FontAwesomeIcon icon={brands("github")} />
                                 <span className="m-2">View source</span>
                             </a>
