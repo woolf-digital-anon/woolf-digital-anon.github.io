@@ -14,6 +14,7 @@ export function XMLViewerContainer() {
     const [layout, setLayout] = useState(AppUtil.sideBySideLayout);
 
     const [filesInfo, setFilesInfo] = useState();
+    const [currentCollection, setCurrentCollection] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [annoZones, setAnnoZones] = useState()
 
@@ -28,6 +29,19 @@ export function XMLViewerContainer() {
 
     function onLayoutChange(layout, layouts) {
         setLayout(layouts)
+    }
+
+    function extractCurrentPage(fileType, fileFormat) {
+        if (!filesInfo) return '';
+
+        const collection = filesInfo[currentCollection - 1];
+        if (!collection) return '';
+
+        const page = collection.pages[currentPage - 1];
+        if (!page) return '';
+
+        const baseURL = process.env.PUBLIC_URL || ''; // Fallback if PUBLIC_URL is not defined
+        return `${baseURL}/files/${collection.path}/${fileType}/${page}.${fileFormat}`;
     }
 
     useEffect(() => {
@@ -65,14 +79,15 @@ export function XMLViewerContainer() {
                     <div key="1">
                         <div className="border bg-light h-100 p-3">
                             <DynamicXMLViewer onSelection={selectedZone} setSelection={setSelectedZone}
-                                              currentPage={filesInfo ? filesInfo[currentPage - 1] : ''}
+                                              currentPage={extractCurrentPage('xml', 'xml')}
                                               setAnnoZones={setAnnoZones}/>
                         </div>
                     </div>
                     <div key="2">
+
                         <div className="border bg-light h-100 p-3">
                             <AnnotationContainer onSelection={selectedZone} setSelection={setSelectedZone}
-                                                 currentPage={filesInfo ? filesInfo[currentPage - 1] : ''}
+                                                 currentPage={extractCurrentPage('img', 'jpg')}
                                                  annoZones={annoZones}/>
                         </div>
                     </div>

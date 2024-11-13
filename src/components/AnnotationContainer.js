@@ -10,9 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Button from 'react-bootstrap/Button'
 import '@recogito/annotorious/dist/annotorious.min.css';
-import axios from "axios";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 
 function ImageComponent({onSelection, setSelection, transformComponentRef, currentPage, annoZones}) {
     // Ref for finding selected element
@@ -91,7 +88,7 @@ function ImageComponent({onSelection, setSelection, transformComponentRef, curre
     useEffect(() => {
 
         if (!currentPage) setImgURL('');
-        else setImgURL(`${process.env.PUBLIC_URL}/files/img/${currentPage}.jpg`);
+        else setImgURL(currentPage);
     }, [currentPage]);
 
     return (
@@ -107,7 +104,7 @@ function ImageComponent({onSelection, setSelection, transformComponentRef, curre
     );
 }
 
-function AnnotationContainer({onSelection, setSelection, currentPage, annoZones, dbUrl}) {
+function AnnotationContainer({onSelection, setSelection, currentPage, annoZones}) {
     // Ref for zooming to element
     const transformComponentRef = useRef();
 
