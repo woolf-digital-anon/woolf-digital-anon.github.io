@@ -6,6 +6,9 @@ import {Responsive, WidthProvider} from "react-grid-layout";
 import {CustomNavbar} from "./CustomNavbar";
 import {DynamicXMLViewer} from "./DynamicXMLViewer";
 import {CustomPagination} from "./CustomPagination";
+import {Breadcrumb, Button, Col} from "react-bootstrap";
+import SearchModal from "./SearchModal";
+import {CollectionSelectModal} from "./CollectionSelectModal";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -13,7 +16,10 @@ export function XMLViewerContainer() {
     const [selectedZone, setSelectedZone] = useState("");
     const [layout, setLayout] = useState(AppUtil.sideBySideLayout);
 
-    const [filesInfo, setFilesInfo] = useState();
+    const [searchShow, setSearchShow] = useState(false);
+    const [collectionSelectShow, setCollectionSelectShow] = useState(false);
+
+    const [filesInfo, setFilesInfo] = useState([]);
     const [currentCollection, setCurrentCollection] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [annoZones, setAnnoZones] = useState()
@@ -44,6 +50,35 @@ export function XMLViewerContainer() {
         return `${baseURL}/files/${collection.path}/${fileType}/${page}.${fileFormat}`;
     }
 
+    function extractCollectionName() {
+        if (!filesInfo) return '';
+
+        const collection = filesInfo[currentCollection - 1];
+        if (!collection) return '';
+
+        return collection.name
+    }
+
+    function extractPageName() {
+        if (!filesInfo) return '';
+
+        const collection = filesInfo[currentCollection - 1];
+        if (!collection) return '';
+
+        const page = collection.pages[currentPage - 1];
+        if (!page) return '';
+
+        return page;
+    }
+
+    function searchModal() {
+        setSearchShow(!searchShow);
+    }
+
+    function collectionSelectModal() {
+        setCollectionSelectShow(!collectionSelectShow)
+    }
+
     useEffect(() => {
         const loadFilesInfo = async () => {
             try {
@@ -58,17 +93,43 @@ export function XMLViewerContainer() {
         loadFilesInfo();
     }, []);
 
+    // if collection changes, page should reset to 1
+    useEffect(() => {
+        if (currentCollection) {
+            setCurrentPage(1);
+        }
+    }, [currentCollection])
+
 
     return (
         <Fragment>
             <CustomNavbar loggedIn={true} helperFunctions={{resetLayout}} />
             <Container>
+                <CollectionSelectModal show={collectionSelectShow} switchShow={collectionSelectModal} setCollection={setCurrentCollection} filesInfo={filesInfo} />
+                <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionName()} />
+
+
+                <div className="d-flex align-items-center my-breadcrumb-container border bg-light h-100 p-2">
+                    <Col className={"col-10"}>
+                        <Breadcrumb className="pt-3 px-2">
+                            <Breadcrumb.Item active onClick={collectionSelectModal}
+                                             style={{cursor: 'pointer'}}>{extractCollectionName()}</Breadcrumb.Item>
+                            <Breadcrumb.Item active>{extractPageName()}</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </Col>
+                    <Col className={"col-2 search-column"}>
+                        <Button variant="link" onClick={searchModal}
+                                style={{textDecoration: 'none', color: '#212529BF'}}>
+                            Search Collection
+                        </Button>
+                    </Col>
+                </div>
 
                 <ResponsiveGridLayout
                     className="layout"
                     layouts={layout}
                     breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                    cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+                    cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
                     rowHeight={130}
                     draggableHandle=".drag-handle"
                     resizeHandles={['se', 'ne']}
@@ -94,7 +155,7 @@ export function XMLViewerContainer() {
 
                 </ResponsiveGridLayout>
                 <CustomPagination currentPage={currentPage} setCurrentPage={setCurrentPage}
-                                  totalPages={filesInfo ? filesInfo.length : 0}/>
+                                  totalPages={filesInfo ? filesInfo[currentCollection - 1]?.pages.length : 0}/>
             </Container>
 
         </Fragment>
