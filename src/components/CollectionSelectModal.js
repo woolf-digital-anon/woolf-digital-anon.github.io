@@ -1,10 +1,12 @@
 import Modal from "react-bootstrap/Modal";
 import {Button, ListGroup} from "react-bootstrap";
 
-export function CollectionSelectModal({ show, switchShow, setCollection, filesInfo }) {
+export function CollectionSelectModal({ show, switchShow, setCollection, setPage, filesInfo }) {
 
     const handleCollectionSelect = (collection, idx) => {
-        setCollection(idx)
+        setCollection(idx);
+        //TODO: perhaps only if collection changes?
+        setPage(1);
         switchShow();
     }
 

@@ -7,11 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {brands} from '@fortawesome/fontawesome-svg-core/import.macro'
 import React from "react";
 import {Fragment} from "react";
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Collection from './components/Collection';
 
 function App() {
     return (
         <Fragment>
-            <XMLViewerContainer />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/:collectionId" element={<Collection />} />
+                <Route path="/:collectionId/:pageId" element={<XMLViewerContainer />} />
+            </Routes>
             <Nav className="bg-light fixed-bottom">
                 <Container>
                     <Row>

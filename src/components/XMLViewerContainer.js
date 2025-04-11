@@ -1,4 +1,5 @@
 import {Fragment, useEffect, useState} from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import * as AppUtil from "../util/app-util";
 import Container from "react-bootstrap/Container";
 import AnnotationContainer from "./AnnotationContainer";
@@ -13,6 +14,9 @@ import {CollectionSelectModal} from "./CollectionSelectModal";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export function XMLViewerContainer() {
+    const { collectionId, pageId } = useParams();
+    const navigate = useNavigate();
+
     const [selectedZone, setSelectedZone] = useState("");
     const [layout, setLayout] = useState(AppUtil.sideBySideLayout);
 
@@ -20,9 +24,9 @@ export function XMLViewerContainer() {
     const [collectionSelectShow, setCollectionSelectShow] = useState(false);
 
     const [filesInfo, setFilesInfo] = useState([]);
-    const [currentCollection, setCurrentCollection] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [annoZones, setAnnoZones] = useState()
+    const [currentCollection, setCurrentCollection] = useState(Number(collectionId));
+    const [currentPage, setCurrentPage] = useState(Number(pageId));
+    const [annoZones, setAnnoZones] = useState();
 
     function resetLayout(newLayout) {
         if (newLayout === 'sbs') {
@@ -93,19 +97,27 @@ export function XMLViewerContainer() {
         loadFilesInfo();
     }, []);
 
-    // if collection changes, page should reset to 1
     useEffect(() => {
-        if (currentCollection) {
-            setCurrentPage(1);
+        if (collectionId) {
+            setCurrentCollection(Number(collectionId));
         }
-    }, [currentCollection])
+        if (pageId) {
+            setCurrentPage(Number(pageId));
+        }
+    }, [collectionId, pageId]);
+
+    useEffect(() => {
+        if (filesInfo.length) {
+            navigate(`/${currentCollection}/${currentPage}`);
+        }
+    }, [currentCollection, currentPage]);
 
 
     return (
         <Fragment>
             <CustomNavbar loggedIn={true} helperFunctions={{resetLayout}} />
             <Container>
-                <CollectionSelectModal show={collectionSelectShow} switchShow={collectionSelectModal} setCollection={setCurrentCollection} filesInfo={filesInfo} />
+                <CollectionSelectModal show={collectionSelectShow} switchShow={collectionSelectModal} setCollection={setCurrentCollection} setPage={setCurrentPage} filesInfo={filesInfo} />
                 <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionName()} />
 
 
