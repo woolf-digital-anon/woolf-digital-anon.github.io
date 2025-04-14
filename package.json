@@ -17,6 +17,7 @@
     "CETEIcean": "^1.9.2",
     "fast-xml-parser": "^4.0.11",
     "file-saver": "^2.0.5",
+    "flexsearch": "^0.8.154",
     "fortawesome": "^0.0.1-security",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",

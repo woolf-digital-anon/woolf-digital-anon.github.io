@@ -28,6 +28,8 @@ export function XMLViewerContainer() {
     const [currentPage, setCurrentPage] = useState(Number(pageId));
     const [annoZones, setAnnoZones] = useState();
 
+    const [searchedItemLocation, setSearchedItemLocation] = useState();
+
     function resetLayout(newLayout) {
         if (newLayout === 'sbs') {
             setLayout(AppUtil.sideBySideLayout)
@@ -61,6 +63,15 @@ export function XMLViewerContainer() {
         if (!collection) return '';
 
         return collection.name
+    }
+
+    function extractCollectionPath() {
+        if (!filesInfo) return '';
+
+        const collection = filesInfo[currentCollection - 1];
+        if (!collection) return '';
+
+        return collection.path
     }
 
     function extractPageName() {
@@ -98,6 +109,16 @@ export function XMLViewerContainer() {
     }, []);
 
     useEffect(() => {
+        if (searchedItemLocation) {
+            setCurrentPage(searchedItemLocation["page"]);
+
+            //TODO: This is not ideal, I should find a better way to do this
+            setTimeout(() => {
+                setSelectedZone(searchedItemLocation['facs'].slice(1));
+            }, 100);        }
+    }, [searchedItemLocation]);
+
+    useEffect(() => {
         if (collectionId) {
             setCurrentCollection(Number(collectionId));
         }
@@ -118,7 +139,7 @@ export function XMLViewerContainer() {
             <CustomNavbar loggedIn={true} helperFunctions={{resetLayout}} />
             <Container>
                 <CollectionSelectModal show={collectionSelectShow} switchShow={collectionSelectModal} setCollection={setCurrentCollection} setPage={setCurrentPage} filesInfo={filesInfo} />
-                <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionName()} />
+                <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionPath()} setSearchedItemLocation={setSearchedItemLocation}/>
 
 
                 <div className="d-flex align-items-center my-breadcrumb-container border bg-light h-100 p-2">

@@ -1,12 +1,45 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Modal, Button, Form, ListGroup, Col, Row} from 'react-bootstrap';
 import axios from "axios";
+import { Document } from "flexsearch";
 
-function SearchModal({ show, switchShow, dbUrl, collectionId, setSearchedItemLocation }) {
+function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState();
+    const [submittedTerm, setSubmittedTerm] = useState('');
 
     const inputRef = useRef(null);
+    const indexRef = useRef(null);
+
+    useEffect(() => {
+        if (!collectionId) return;
+
+        fetch(`${process.env.PUBLIC_URL}/files/${collectionId}/index.json`)
+            .then(res => res.json())
+            .then(data => {
+                const index = new Document({
+                    tokenize: "strict",
+                    document: {
+                        id: "id",
+                        index: ["text"],
+                        store: ["text", "facs", "page", "page_name"]
+                    }
+                });
+
+                data.forEach((item, i) => {
+                    index.add({
+                        id: i, // required so each entry has a unique ID
+                        text: item.text,
+                        facs: item.facs,
+                        page: item.page,
+                        page_name: item.page_name
+                    });
+                });
+
+                indexRef.current = index;
+            })
+            .catch(err => console.error("Failed to load search index", err));
+    }, [collectionId]);
 
     const normalizeResults = (result) => {
         if (result && result['hit-count'] > 0) {
@@ -16,26 +49,35 @@ function SearchModal({ show, switchShow, dbUrl, collectionId, setSearchedItemLoc
         return [];
     };
 
-    const handleSearch = () => {
-        const reqUrl = dbUrl.concat("/search.xql")
-        // const params = new URLSearchParams({ collection: collectionId, term: '\"' + searchTerm + '\"' });
-        const params = new URLSearchParams({ collection: collectionId, term: searchTerm });
-        axios.get(reqUrl, {params})
-            .then((result) => {
-                setResults(normalizeResults(result.data));
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+    const handleSearch = async () => {
+        if (!indexRef.current || !searchTerm) return;
+
+        setSubmittedTerm(searchTerm);
+        const results = await indexRef.current.searchAsync(searchTerm, { enrich: true });
+
+        // console.log(results)
+
+        // Flatten result groups
+        const flatResults = results.flatMap(group => group.result);
+        flatResults.sort((a, b) => {
+            return a.id - b.id;
+        });
+        setResults(flatResults);
+
     };
 
     const handleItemClick = (item) => {
         setSearchedItemLocation({
-            'facs': item['facs-attribute'],
-            'url': item['url']
+            'facs': item.doc.facs,
+            'page': item.doc.page
         })
         switchShow();
     }
+
+    const highlight = (text) => {
+        const regex = new RegExp(`(${submittedTerm})`, 'gi');
+        return text.replace(regex, "<mark>$1</mark>");
+    };
 
     useEffect(() => {
         if (collectionId) {
@@ -78,8 +120,11 @@ function SearchModal({ show, switchShow, dbUrl, collectionId, setSearchedItemLoc
                 <ListGroup className="mt-3" style={{maxHeight: '60vh', overflowY: 'auto'}}>
                     {results ? (results.length > 0 ? results.map((item, index) => (
                         <ListGroup.Item key={index} className="clickable-item" onClick={() => handleItemClick(item)}>
-                            <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>{item['document'].slice(0, -4)}</div>
-                            <div className="search-result-item" dangerouslySetInnerHTML={{__html: item['hit']}} />
+                            <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{item.doc['page_name']}</div>
+                            <div
+                                className="search-result-item"
+                                dangerouslySetInnerHTML={{__html: highlight(item.doc.text)}}
+                            />
                         </ListGroup.Item>
                     )) : <div className="text-center mt-3 mb-3">No results found</div>) : ''}
                 </ListGroup>
