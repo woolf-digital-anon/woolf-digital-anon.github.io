@@ -115,8 +115,9 @@ export function XMLViewerContainer() {
             //TODO: This is not ideal, I should find a better way to do this
             setTimeout(() => {
                 setSelectedZone(searchedItemLocation['facs'].slice(1));
-            }, 100);        }
-    }, [searchedItemLocation]);
+            }, 200);
+        }
+    }, [searchedItemLocation, currentPage]);
 
     useEffect(() => {
         if (collectionId) {
@@ -128,6 +129,8 @@ export function XMLViewerContainer() {
     }, [collectionId, pageId]);
 
     useEffect(() => {
+        setSearchedItemLocation(null);
+        setSelectedZone(null);
         if (filesInfo.length) {
             navigate(`/${currentCollection}/${currentPage}`);
         }

@@ -5,8 +5,9 @@ export function CollectionSelectModal({ show, switchShow, setCollection, setPage
 
     const handleCollectionSelect = (collection, idx) => {
         setCollection(idx);
-        //TODO: perhaps only if collection changes?
         setPage(1);
+        //TODO: perhaps only if collection changes?
+
         switchShow();
     }
 

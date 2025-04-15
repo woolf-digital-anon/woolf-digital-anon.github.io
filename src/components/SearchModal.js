@@ -1,13 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Modal, Button, Form, ListGroup, Col, Row} from 'react-bootstrap';
-import axios from "axios";
-import { Document } from "flexsearch";
+import {Button, Col, Form, ListGroup, Modal, Row} from 'react-bootstrap';
+import Fuse from "fuse.js";
 
 function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState();
-    const [submittedTerm, setSubmittedTerm] = useState('');
-
     const inputRef = useRef(null);
     const indexRef = useRef(null);
 
@@ -17,66 +14,55 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
         fetch(`${process.env.PUBLIC_URL}/files/${collectionId}/index.json`)
             .then(res => res.json())
             .then(data => {
-                const index = new Document({
-                    tokenize: "strict",
-                    document: {
-                        id: "id",
-                        index: ["text"],
-                        store: ["text", "facs", "page", "page_name"]
-                    }
-                });
+                const {rawDocs, index} = data;
+                const fuseIndex = Fuse.parseIndex(index);
 
-                data.forEach((item, i) => {
-                    index.add({
-                        id: i, // required so each entry has a unique ID
-                        text: item.text,
-                        facs: item.facs,
-                        page: item.page,
-                        page_name: item.page_name
-                    });
-                });
-
-                indexRef.current = index;
+                indexRef.current = new Fuse(rawDocs, {
+                    keys: ['text'],
+                    includeScore: true,
+                    includeMatches: true,
+                    ignoreDiacritics: true,
+                    minMatchCharLength: 2,
+                    threshold: 0.2
+                }, fuseIndex);
             })
             .catch(err => console.error("Failed to load search index", err));
     }, [collectionId]);
 
-    const normalizeResults = (result) => {
-        if (result && result['hit-count'] > 0) {
-            // If results['hits'] is not an array, make it an array
-            return Array.isArray(result['hits']) ? result['hits'] : [result['hits']];
-        }
-        return [];
-    };
-
     const handleSearch = async () => {
         if (!indexRef.current || !searchTerm) return;
 
-        setSubmittedTerm(searchTerm);
-        const results = await indexRef.current.searchAsync(searchTerm, { enrich: true });
+        const results = indexRef.current.search(searchTerm);
 
-        // console.log(results)
-
-        // Flatten result groups
-        const flatResults = results.flatMap(group => group.result);
-        flatResults.sort((a, b) => {
-            return a.id - b.id;
-        });
-        setResults(flatResults);
+        setResults(results);
 
     };
 
     const handleItemClick = (item) => {
         setSearchedItemLocation({
-            'facs': item.doc.facs,
-            'page': item.doc.page
+            'facs': item.item.facs,
+            'page': item.item.page
         })
         switchShow();
     }
 
-    const highlight = (text) => {
-        const regex = new RegExp(`(${submittedTerm})`, 'gi');
-        return text.replace(regex, "<mark>$1</mark>");
+    const highlightFromFuse = (item) => {
+        const match = item.matches?.find(m => m.key === 'text');
+        if (!match) return item.item.text;
+
+        const text = item.item.text;
+        let result = '';
+        let lastIndex = 0;
+
+        // matches are arrays of [start, end] indices
+        match.indices.forEach(([start, end]) => {
+            result += text.slice(lastIndex, start);
+            result += `<mark>${text.slice(start, end + 1)}</mark>`;
+            lastIndex = end + 1;
+        });
+
+        result += text.slice(lastIndex);
+        return result;
     };
 
     useEffect(() => {
@@ -107,6 +93,12 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
                                 type="text"
                                 placeholder="Search..."
                                 value={searchTerm}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        handleSearch();
+                                    }
+                                }}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </Col>
@@ -120,10 +112,10 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
                 <ListGroup className="mt-3" style={{maxHeight: '60vh', overflowY: 'auto'}}>
                     {results ? (results.length > 0 ? results.map((item, index) => (
                         <ListGroup.Item key={index} className="clickable-item" onClick={() => handleItemClick(item)}>
-                            <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{item.doc['page_name']}</div>
+                            <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{item.item['page_name']}</div>
                             <div
                                 className="search-result-item"
-                                dangerouslySetInnerHTML={{__html: highlight(item.doc.text)}}
+                                dangerouslySetInnerHTML={{__html: highlightFromFuse(item)}}
                             />
                         </ListGroup.Item>
                     )) : <div className="text-center mt-3 mb-3">No results found</div>) : ''}
