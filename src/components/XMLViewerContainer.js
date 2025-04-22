@@ -132,15 +132,15 @@ export function XMLViewerContainer() {
         setSearchedItemLocation(null);
         setSelectedZone(null);
         if (filesInfo.length) {
-            navigate(`/${currentCollection}/${currentPage}`);
+            navigate(`/collection/${currentCollection}/page/${currentPage}`);
         }
     }, [currentCollection, currentPage]);
 
 
     return (
         <Fragment>
-            <CustomNavbar loggedIn={true} helperFunctions={{resetLayout}} />
-            <Container>
+            <CustomNavbar helperFunctions={{resetLayout}} />
+            <Container className="page-container">
                 <CollectionSelectModal show={collectionSelectShow} switchShow={collectionSelectModal} setCollection={setCurrentCollection} setPage={setCurrentPage} filesInfo={filesInfo} />
                 <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionPath()} setSearchedItemLocation={setSearchedItemLocation}/>
 

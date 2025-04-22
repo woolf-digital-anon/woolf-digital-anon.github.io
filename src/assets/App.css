@@ -288,3 +288,8 @@
 hi[type="match"] {
   background-color: #fff00065;
 }
+
+
+.page-container {
+  padding-bottom: 80px; /* enough space to clear the fixed bottom navbar */
+}

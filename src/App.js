@@ -16,8 +16,8 @@ function App() {
         <Fragment>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/:collectionId" element={<Collection />} />
-                <Route path="/:collectionId/:pageId" element={<XMLViewerContainer />} />
+                <Route path="/collection/:collectionId" element={<Collection />} />
+                <Route path="/collection/:collectionId/page/:pageId" element={<XMLViewerContainer />} />
             </Routes>
             <Nav className="bg-light fixed-bottom">
                 <Container>

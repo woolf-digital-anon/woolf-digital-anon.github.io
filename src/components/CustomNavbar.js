@@ -14,6 +14,7 @@ export function CustomNavbar({helperFunctions={}}) {
                     Necturus XML Viewer
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                { helperFunctions.resetLayout ?
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <NavDropdown title="Set Layouts" id="basic-nav-dropdown">
@@ -21,7 +22,7 @@ export function CustomNavbar({helperFunctions={}}) {
                                 <NavDropdown.Item onClick={() => helperFunctions.resetLayout('fw')}>Full-Width</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                    </Navbar.Collapse>
+                    </Navbar.Collapse> : ''}
             </Container>
         </Navbar>
     )
