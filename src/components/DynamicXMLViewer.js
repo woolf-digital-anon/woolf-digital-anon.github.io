@@ -16,6 +16,14 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
         setShowRender(!showRender);
     }
 
+    const exportXML = (xmlString) => {
+        const blob = new Blob([xmlString], {type: "application/xml"})
+        const parts = currentPage.split("/");
+        const filename = parts.pop() || "download.xml";
+
+        saveAs(blob, filename.endsWith('.xml') ? filename : `${filename}.xml`);
+    }
+
     useEffect(() => {
         const loadXmltext = async () => {
             try {
@@ -172,8 +180,3 @@ const XmlHtmlRenderer = ({ xmlString, onSelection, setSelection, setAnnoZones })
 
     return <div ref={containerRef} onClick={handleClick} className={"xml-container"}>{xmlHtml}</div>;
 };
-
-const exportXML = (xmlString) => {
-    let blob = new Blob([xmlString], {type: "application/xml"})
-    saveAs(blob, 'file.xml')
-}
