@@ -1,29 +1,46 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import logo from "../assets/logo.png";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
+import { useMeta } from "./MetaContext";
 
-export function CustomNavbar({helperFunctions={}}) {
 
-    return(
+export function CustomNavbar({ helperFunctions = {} }) {
+    const meta = useMeta();
+
+    return (
         <Navbar bg="light" expand="lg" className="sticky-top">
             <Container>
-                <Navbar.Brand>
-                    <span><img src={logo} alt={""} style={{"height": 64, "width": 64, "marginRight": "10px"}}/></span>
-                    Necturus XML Viewer
+                <Navbar.Brand as={Link} to="/">
+                    {meta.logo && (
+                        <img
+                            src={meta.logo}
+                            alt="logo"
+                            style={{ height: 64, width: 64, marginRight: "10px" }}
+                        />
+                    )}
+                    {meta.title || "Necturus XML Viewer"}
                 </Navbar.Brand>
+
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                { helperFunctions.resetLayout ?
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
+
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        {helperFunctions.resetLayout && (
                             <NavDropdown title="Set Layouts" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => helperFunctions.resetLayout('sbs')}>Side by Side</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() => helperFunctions.resetLayout('fw')}>Full-Width</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => helperFunctions.resetLayout("sbs")}>
+                                    Side by Side
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => helperFunctions.resetLayout("fw")}>
+                                    Full-Width
+                                </NavDropdown.Item>
                             </NavDropdown>
-                        </Nav>
-                    </Navbar.Collapse> : ''}
+                        )}
+                        <Nav.Link as={Link} to="/about">About</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
             </Container>
         </Navbar>
-    )
+    );
 }
