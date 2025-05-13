@@ -4,16 +4,26 @@ import {Button} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
 import { scrollIntoView } from "seamless-scroll-polyfill";
-import {convertZonesToJson} from "../util/annotation-util"
 import {saveAs} from 'file-saver';
+import {XMLRenderer} from "./XMLRenderer";
 
 
 export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones}) {
     const [xmlText, setXmlText] = useState("");
     const [showRender, setShowRender] = useState(true);
+    const [abbr, setAbbr] = useState(true);
+
+    const containerRef = useRef(null);
+
+    const customRenderers = {
+        "abbr": (node, children, attributes) => <span {...attributes}>{children}</span>,
+        "expan": (node, children, attributes) => <span style={{ display: 'none' }} {...attributes}>{children}</span>,
+    }
 
     const onToolSelect = () => {
         setShowRender(!showRender);
+        setSelection(null);
+        setAbbr(true);
     }
 
     const exportXML = (xmlString) => {
@@ -22,6 +32,10 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
         const filename = parts.pop() || "download.xml";
 
         saveAs(blob, filename.endsWith('.xml') ? filename : `${filename}.xml`);
+    }
+
+    const abbrToggle = () => {
+        setAbbr(!abbr);
     }
 
     useEffect(() => {
@@ -39,12 +53,61 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
         else loadXmltext();
     }, [currentPage]);
 
+    useEffect(() => {
+        if (!xmlText) return;
+
+        const container = document.querySelector('.xml-container');
+        if (!container) return;
+
+        const choiceSpans = container.querySelectorAll('[data-orig-tag="choice"]');
+
+        choiceSpans.forEach(choiceEl => {
+            const abbrVersion = choiceEl.querySelectorAll('[data-orig-tag="abbr"]');
+            const extVersion = choiceEl.querySelectorAll('[data-orig-tag="expan"]');
+
+            const toShow = abbr ? abbrVersion : extVersion;
+            const toHide = abbr ? extVersion : abbrVersion;
+
+            toShow.forEach(el => {
+                el.style.display = '';
+                el.classList.add('flash');
+            });
+
+            toHide.forEach(el => {
+                el.style.display = 'none';
+                el.classList.remove('flash');
+            });
+        });
+
+        const timeout = setTimeout(() => {
+            const flashing = container.querySelectorAll('.flash');
+            flashing.forEach(el => el.classList.remove('flash'));
+        }, 600);
+
+        return () => clearTimeout(timeout);
+    }, [xmlText, abbr]);
+
     return (
         <Fragment>
             <div className="h-100 d-flex flex-column">
                 <div className="d-flex tools">
                     <Button variant="light" title={'export XML'} onClick={() => exportXML(xmlText)}><FontAwesomeIcon icon={solid("file-export")} /></Button>
                     <Button variant="light" title={'drag and move'} className={'drag-handle'}><FontAwesomeIcon icon={solid("up-down-left-right")} /></Button>
+
+                    {showRender ? (
+                        <span className="ms-auto p-2 d-inline-flex">
+                        <div className="switcher" onChange={abbrToggle}>
+                              <input type="radio" name="view-toggle-2" value="expand" id="expand" className="switcherxml__input switcherxml__input--raw" />
+                              <label htmlFor="expand" className="switcher__label">Expand</label>
+
+                              <input type="radio" name="view-toggle-2" value="abbr" id="abbr" className="switcherxml__input switcherxml__input--render" defaultChecked />
+                              <label htmlFor="abbr" className="switcher__label">Abbr.</label>
+
+                              <span className="switcher__toggle"></span>
+                        </div>
+                    </span>
+                    ) : ''}
+
 
                     <span className="ms-auto p-2 d-inline-flex">
                         <div className="switcher" onChange={onToolSelect}>
@@ -59,11 +122,11 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
                     </span>
                 </div>
-                <div className={"xml-container"}>
+                <div className={"xml-container"} >
                     {showRender ? (
-                        <XmlHtmlRenderer xmlString={xmlText} onSelection={onSelection} setSelection={setSelection} setAnnoZones={setAnnoZones} />
+                        <SelectableXmlViewer ref={containerRef} xmlString={xmlText} onSelection={onSelection} setSelection={setSelection} onZonesExtracted={setAnnoZones} customRenderers={customRenderers} />
                     ) : (
-                        <XMLViewer collapsible="true" initalCollapsedDepth="3" xml={xmlText} />
+                        <XMLViewer collapsible="true" initialCollapsedDepth="3" xml={xmlText} />
                     )}
                 </div>
 
@@ -73,110 +136,44 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
     )
 }
 
-const XmlHtmlRenderer = ({ xmlString, onSelection, setSelection, setAnnoZones }) => {
-    const [xmlHtml, setXmlHtml] = useState(null);
+export function SelectableXmlViewer({
+                                        xmlString,
+                                        onSelection,
+                                        setSelection,
+                                        onZonesExtracted,
+                                        ...xmlRendererProps
+                                    }) {
+    const containerRef = useRef(null);
     const [selectedElement, setSelectedElement] = useState(null);
     const [prevSelectedElement, setPrevSelectedElement] = useState(null);
-    const containerRef = useRef(null);
-
-    // if user selects from the text
-    const handleClick = (e) => {
-        if (e.target.getAttribute('facs')) setSelection(e.target.getAttribute('facs').slice(1))
-    }
 
     useEffect(() => {
-        if (!xmlString) {
-            return;
-        }
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlString, 'application/xml');
-
-        const parseError = xmlDoc.getElementsByTagName('parsererror')[0];
-        if (parseError) {
-            setXmlHtml(
-                <Fragment>
-                <p>The XML document has the following error and cannot be rendered:</p>
-                <p>{parseError.querySelector('div').textContent.trim()}</p>
-                </Fragment>)
-            return;
-        }
-
-        const extractZones = (doc) => {
-            const zones = doc.getElementsByTagName('zone');
-            setAnnoZones(convertZonesToJson(zones));
-        }
-
-        // Convert the XML DOM into React elements
-        const renderXmlAsReact = (node) => {
-            if (node.nodeType === Node.TEXT_NODE) {
-                return node.nodeValue;
-            }
-
-            if (node.nodeType === Node.ELEMENT_NODE) {
-                const tagName = node.tagName.toLowerCase();
-
-                if (tagName === 'teiheader' ||
-                    tagName === 'facsimile' ||
-                    tagName === 'pb') {
-                    return '';
-                }
-
-                const children = Array.from(node.childNodes).map((child) => renderXmlAsReact(child));
-                const attributes = Array.from(node.attributes).reduce((acc, { name, value }) => {
-                    if (name === 'facs') acc['key'] = value;
-                    if (name === 'style') {
-                        // TODO: Transform the style appropriately
-                        return acc;
-                    }
-                    acc[name] = value;
-                    return acc;
-                }, {});
-
-                if (tagName === 'tei' ||
-                    tagName === 'body' ||
-                    tagName === 'lg' ||
-                    tagName === 'text') {
-                    return <Fragment>{children}</Fragment>
-                }
-
-                if (tagName === 'l') {
-                    return <Fragment><span {...attributes}>{children}</span><br/></Fragment>
-                }
-
-                if (tagName === 'unclear') {
-                    return <Fragment><span attr="unclear" {...attributes}>{children}</span></Fragment>
-                }
-
-                if (tagName === 'lb') {
-                    return <Fragment><span {...attributes}/><br/></Fragment>
-                }
-
-                return React.createElement(node.tagName.toLowerCase(), {...attributes}, children);
-            }
-
-            return null;
-        };
-
-        extractZones(xmlDoc);
-        const xmlHtml = renderXmlAsReact(xmlDoc.documentElement);
-        setXmlHtml(xmlHtml);
-    }, [xmlString]);
-
-    useEffect(() => {
-        // console.log("in selection", onSelection)
         if (!xmlString) return;
-        setSelectedElement(containerRef.current?.querySelector(`[facs="#${onSelection}"]`))
-    }, [onSelection])
+        setSelectedElement(containerRef.current?.querySelector(`[facs="#${onSelection}"]`));
+    }, [onSelection, xmlString]);
 
     useEffect(() => {
-        // console.log("in elem", selectedElement)
-        if (prevSelectedElement) prevSelectedElement.classList.remove("highlighted");
+        if (prevSelectedElement) prevSelectedElement.classList.remove('highlighted');
         if (selectedElement) {
-            selectedElement.classList.add("highlighted");
-            scrollIntoView(selectedElement, {block: "nearest", inline: "nearest"});
+            selectedElement.classList.add('highlighted');
+            scrollIntoView(selectedElement, { block: 'nearest', inline: 'nearest' });
             setPrevSelectedElement(selectedElement);
         }
-    }, [selectedElement])
+    }, [selectedElement]);
 
-    return <div ref={containerRef} onClick={handleClick} className={"xml-container"}>{xmlHtml}</div>;
-};
+    const handleClick = (e) => {
+        const facs = e.target.getAttribute('facs');
+        if (facs) setSelection(facs.slice(1));
+    };
+
+    return (
+        <div ref={containerRef} onClick={handleClick} className="xml-container">
+            <XMLRenderer
+                xmlString={xmlString}
+                onZonesExtracted={onZonesExtracted}
+                onElementClick={handleClick}
+                {...xmlRendererProps}
+            />
+        </div>
+    );
+}

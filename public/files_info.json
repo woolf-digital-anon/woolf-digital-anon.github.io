@@ -25,5 +25,12 @@
             "0011_KBR_1805-08_3r",
             "0012_KBR_1805-08_3v"
         ]
+    },
+    {
+        "path": "sample_3",
+        "name": "Abbreviation Sample",
+        "pages": [
+            "xml_A"
+        ]
     }
 ]

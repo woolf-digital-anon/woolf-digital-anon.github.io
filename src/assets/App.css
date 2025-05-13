@@ -293,3 +293,16 @@ hi[type="match"] {
 .page-container {
   padding-bottom: 80px; /* enough space to clear the fixed bottom navbar */
 }
+
+.flash {
+  animation: flashHighlight 0.6s ease-in-out;
+}
+
+@keyframes flashHighlight {
+  from {
+    background-color: #fff00065;
+  }
+  to {
+    background-color: transparent;
+  }
+}
