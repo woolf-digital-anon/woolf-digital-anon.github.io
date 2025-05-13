@@ -306,3 +306,7 @@ hi[type="match"] {
     background-color: transparent;
   }
 }
+
+.dropdown-menu {
+  width: 300px !important; /* Or whatever fixed width you want */
+}

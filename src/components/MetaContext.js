@@ -6,7 +6,7 @@ export function MetaProvider({ children }) {
     const [meta, setMeta] = useState({ title: "Loading..." });
 
     useEffect(() => {
-        fetch("/files/meta.json")
+        fetch(`${process.env.PUBLIC_URL}/files/meta.json`)
             .then((res) => res.json())
             .then((data) => setMeta(data))
             .catch(() => setMeta({ title: "Necturus XML Viewer" }));

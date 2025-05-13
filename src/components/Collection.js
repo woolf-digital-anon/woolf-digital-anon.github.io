@@ -7,6 +7,7 @@ import {CustomNavbar} from "./CustomNavbar";
 function Collection() {
     const { collectionId } = useParams();
     const [collection, setCollection] = useState(null);
+    const [picturesAvailable, setPicturesAvailable] = useState(false)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,6 +17,7 @@ function Collection() {
                 const data = await response.json();
                 const selected = data[collectionId-1];
                 setCollection(selected);
+                setPicturesAvailable(data[collectionId-1].picturesAvailable)
             } catch (e) {
                 console.error(e);
             }
@@ -40,7 +42,9 @@ function Collection() {
                             <Card onClick={() => handleCardClick(i + 1)} className="h-100 clickable" style={{ cursor: 'pointer' }}>
                                 <Card.Img
                                     variant="top"
-                                    src={`${process.env.PUBLIC_URL}/files/${collection.path}/img/${page}.jpg`}
+                                    src={picturesAvailable ?
+                                        `${process.env.PUBLIC_URL}/files/${collection.path}/img/${page}.jpg`
+                                        : `${process.env.PUBLIC_URL}/placeholder_view_vector.png`}
                                     onError={(e) => e.target.style.display = 'none'}
                                     style={{ objectFit: 'cover', height: '200px' }}
                                 />

@@ -12,7 +12,8 @@
             "m1-8-1-7",
             "m1-8-1-8",
             "m1-8-1-9"
-        ]
+        ],
+        "picturesAvailable": true
     },
     {
         "path": "sample_2",
@@ -24,13 +25,15 @@
             "0010_KBR_1805-08_2v",
             "0011_KBR_1805-08_3r",
             "0012_KBR_1805-08_3v"
-        ]
+        ],
+        "picturesAvailable": true
     },
     {
         "path": "sample_3",
         "name": "Abbreviation Sample",
         "pages": [
             "xml_A"
-        ]
+        ],
+        "picturesAvailable": false
     }
 ]

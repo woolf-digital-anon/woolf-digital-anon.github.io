@@ -15,7 +15,7 @@ export function CustomNavbar({ helperFunctions = {} }) {
                 <Navbar.Brand as={Link} to="/">
                     {meta.logo && (
                         <img
-                            src={meta.logo}
+                            src={`${process.env.PUBLIC_URL}/${meta.logo}`}
                             alt="logo"
                             style={{ height: 64, width: 64, marginRight: "10px" }}
                         />
@@ -30,7 +30,7 @@ export function CustomNavbar({ helperFunctions = {} }) {
                         {helperFunctions.resetLayout && (
                             <NavDropdown title="Set Layouts" id="basic-nav-dropdown">
                                 <NavDropdown.Item onClick={() => helperFunctions.resetLayout("sbs")}>
-                                    Side by Side
+                                    Half-Width
                                 </NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => helperFunctions.resetLayout("fw")}>
                                     Full-Width

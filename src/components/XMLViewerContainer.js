@@ -23,9 +23,10 @@ export function XMLViewerContainer() {
     const [searchShow, setSearchShow] = useState(false);
     const [collectionSelectShow, setCollectionSelectShow] = useState(false);
 
-    const [filesInfo, setFilesInfo] = useState([]);
+    const [filesInfo, setFilesInfo] = useState("");
     const [currentCollection, setCurrentCollection] = useState(Number(collectionId));
     const [currentPage, setCurrentPage] = useState(Number(pageId));
+    const [picturesAvailable, setPicturesAvailable] = useState(true);
     const [annoZones, setAnnoZones] = useState();
 
     const [searchedItemLocation, setSearchedItemLocation] = useState();
@@ -136,6 +137,21 @@ export function XMLViewerContainer() {
         }
     }, [currentCollection, currentPage]);
 
+    useEffect(() => {
+        if (!filesInfo) return;
+        if (!currentCollection) return;
+        setPicturesAvailable(filesInfo[currentCollection - 1]?.picturesAvailable);
+
+    }, [filesInfo, currentCollection]);
+
+    useEffect(() => {
+        if (!picturesAvailable) {
+            setLayout(AppUtil.singleItemLayout);
+        }
+        else {
+            setLayout(AppUtil.sideBySideLayout);
+        }
+    }, [picturesAvailable])
 
     return (
         <Fragment>
@@ -180,14 +196,19 @@ export function XMLViewerContainer() {
                                               setAnnoZones={setAnnoZones}/>
                         </div>
                     </div>
-                    <div key="2">
 
-                        <div className="border bg-light h-100 p-3">
-                            <AnnotationContainer onSelection={selectedZone} setSelection={setSelectedZone}
-                                                 currentPage={extractCurrentPage('img', 'jpg')}
-                                                 annoZones={annoZones}/>
+                    {picturesAvailable && (
+                        <div key="2">
+                            <div className="border bg-light h-100 p-3">
+                                <AnnotationContainer
+                                    onSelection={selectedZone}
+                                    setSelection={setSelectedZone}
+                                    currentPage={extractCurrentPage('img', 'jpg')}
+                                    annoZones={annoZones}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                 </ResponsiveGridLayout>
                 <CustomPagination currentPage={currentPage} setCurrentPage={setCurrentPage}

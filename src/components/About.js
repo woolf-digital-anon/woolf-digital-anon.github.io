@@ -8,7 +8,7 @@ export default function About() {
     const [markdown, setMarkdown] = useState("");
 
     useEffect(() => {
-        fetch("/files/about.md")
+        fetch(`${process.env.PUBLIC_URL}/files/about.md`)
             .then((res) => res.text())
             .then((text) => setMarkdown(text))
             .catch((err) => console.error("Failed to load about.md", err));

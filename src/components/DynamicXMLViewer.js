@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect, useRef, useState} from 'react'
 import XMLViewer from 'react-xml-viewer'
 import {Button} from "react-bootstrap";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
 import { scrollIntoView } from "seamless-scroll-polyfill";
@@ -91,36 +92,43 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
         <Fragment>
             <div className="h-100 d-flex flex-column">
                 <div className="d-flex tools">
-                    <Button variant="light" title={'export XML'} onClick={() => exportXML(xmlText)}><FontAwesomeIcon icon={solid("file-export")} /></Button>
-                    <Button variant="light" title={'drag and move'} className={'drag-handle'}><FontAwesomeIcon icon={solid("up-down-left-right")} /></Button>
+                    <Button variant="light" title={'Export XML'} onClick={() => exportXML(xmlText)}>
+                        <FontAwesomeIcon icon={solid("file-export")} />
+                    </Button>
 
-                    {showRender ? (
-                        <span className="ms-auto p-2 d-inline-flex">
-                        <div className="switcher" onChange={abbrToggle}>
-                              <input type="radio" name="view-toggle-2" value="expand" id="expand" className="switcherxml__input switcherxml__input--raw" />
-                              <label htmlFor="expand" className="switcher__label">Expand</label>
+                    <Button variant="light" title={'Drag and move'} className="drag-handle">
+                        <FontAwesomeIcon icon={solid("up-down-left-right")} />
+                    </Button>
 
-                              <input type="radio" name="view-toggle-2" value="abbr" id="abbr" className="switcherxml__input switcherxml__input--render" defaultChecked />
-                              <label htmlFor="abbr" className="switcher__label">Abbr.</label>
+                    <DropdownButton variant="light" className="ms-auto" title="View Options" align="end" >
+                        <div className="px-3 py-2 d-flex align-items-center justify-content-between">
+                            <span className="me-3">XML</span>
+                            <div className="switcher" onChange={onToolSelect}>
+                                <input type="radio" name="view-toggle" value="raw" id="raw" className="switcherxml__input switcherxml__input--raw" />
+                                <label htmlFor="raw" className="switcher__label">Raw</label>
 
-                              <span className="switcher__toggle"></span>
-                        </div>
-                    </span>
-                    ) : ''}
+                                <input type="radio" name="view-toggle" value="render" id="render" className="switcherxml__input switcherxml__input--render" defaultChecked />
+                                <label htmlFor="render" className="switcher__label">Render</label>
 
-
-                    <span className="ms-auto p-2 d-inline-flex">
-                        <div className="switcher" onChange={onToolSelect}>
-                              <input type="radio" name="view-toggle" value="raw" id="raw" className="switcherxml__input switcherxml__input--raw" />
-                              <label htmlFor="raw" className="switcher__label">Raw</label>
-
-                              <input type="radio" name="view-toggle" value="render" id="render" className="switcherxml__input switcherxml__input--render" defaultChecked />
-                              <label htmlFor="render" className="switcher__label">Render</label>
-
-                              <span className="switcher__toggle"></span>
+                                <span className="switcher__toggle"></span>
+                            </div>
                         </div>
 
-                    </span>
+                        {showRender && (
+                            <div className="px-3 py-2 d-flex align-items-center justify-content-between">
+                                <span className="me-3">Abbreviations</span>
+                                <div className="switcher" onChange={abbrToggle}>
+                                    <input type="radio" name="view-toggle-2" value="expand" id="expand" className="switcherxml__input switcherxml__input--raw" />
+                                    <label htmlFor="expand" className="switcher__label">Expand</label>
+
+                                    <input type="radio" name="view-toggle-2" value="abbr" id="abbr" className="switcherxml__input switcherxml__input--render" defaultChecked />
+                                    <label htmlFor="abbr" className="switcher__label">Abbr.</label>
+
+                                    <span className="switcher__toggle"></span>
+                                </div>
+                            </div>
+                        )}
+                    </DropdownButton>
                 </div>
                 <div className={"xml-container"} >
                     {showRender ? (

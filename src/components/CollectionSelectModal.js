@@ -18,11 +18,11 @@ export function CollectionSelectModal({ show, switchShow, setCollection, setPage
             </Modal.Header>
             <Modal.Body>
                 <ListGroup>
-                    {filesInfo.map((collection, idx) => (
+                    {filesInfo ? filesInfo.map((collection, idx) => (
                         <ListGroup.Item key={idx} action onClick={() => handleCollectionSelect(collection, idx+1)}>
                             {collection.name}
                         </ListGroup.Item>
-                    ))}
+                    )) : ''}
                 </ListGroup>
             </Modal.Body>
             <Modal.Footer>
