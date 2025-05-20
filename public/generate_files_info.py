@@ -34,14 +34,17 @@ def process_folders(directory):
                 with open(meta_file_path, 'r') as meta_file:
                     metadata = json.load(meta_file)
                     collection_name = metadata.get("name", folder)
+                    pictures_available = metadata.get("picturesAvailable", True)
             else:
                 collection_name = folder
+                pictures_available = True
 
             # Add to result
             result.append({
                 "path": folder,
                 "name": collection_name,
-                "pages": xml_files
+                "pages": xml_files,
+                "picturesAvailable": pictures_available
             })
 
     return result
