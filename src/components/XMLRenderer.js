@@ -72,6 +72,7 @@ export function XMLRenderer({
             'lg': (node, children, attributes) => <Fragment>{children}</Fragment>,
             'l': (node, children, attributes) => <Fragment><span {...attributes}>{children}</span><br /></Fragment>,
             'lb': (node, children, attributes) => <Fragment><span {...attributes} /><br /></Fragment>,
+            'rs': (node, children, attributes) => <Fragment><a href="#"> {children} </a></Fragment>
         };
 
         const runPlugins = (node, children, attributes) => {
@@ -90,10 +91,6 @@ export function XMLRenderer({
             const children = Array.from(node.childNodes).map(renderXmlAsReact);
             const attributes = processAttributes(Array.from(node.attributes), [...attributePlugins, ...defaultAttributePlugins]);
 
-            if (!attributes['data-orig-tag']) {
-                attributes['data-orig-tag'] = tagName;
-            }
-
             const pluginResult = runPlugins(node, children, attributes);
             if (pluginResult) return pluginResult;
 
@@ -102,9 +99,7 @@ export function XMLRenderer({
 
             // console.log('Unmapped tag:', tagName, attributes);
             return (
-                <span data-orig-tag={tagName} {...attributes}>
-                    {children}
-                </span>
+                React.createElement(node.tagName.toLowerCase(), {...attributes }, children)
             );
         };
 
