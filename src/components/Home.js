@@ -29,7 +29,7 @@ function Home() {
             <CustomNavbar helperFunctions={{}} />
 
             <Container fluid className="px-4 pt-4 page-container">
-                <h2 className="mb-4">Available Collections</h2>
+                <h2 className="mb-4" style={{ textAlign: "center" }}>Browse the Drafts</h2>
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {filesInfo.map((collection, index) => {
                         const firstImagePath = collection.picturesAvailable ? `${process.env.PUBLIC_URL}/files/${collection.path}/img/${collection.pages[0]}.jpg`

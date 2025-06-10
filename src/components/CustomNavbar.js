@@ -17,7 +17,7 @@ export function CustomNavbar({ helperFunctions = {} }) {
                         <img
                             src={`${process.env.PUBLIC_URL}/${meta.logo}`}
                             alt="logo"
-                            style={{ height: 64, width: 64, marginRight: "10px" }}
+                            style={{ height: 64, width: 102, marginRight: "10px" }}
                         />
                     )}
                     {meta.title || "Necturus XML Viewer"}
