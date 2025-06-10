@@ -1,7 +1,7 @@
 [
     {
-        "path": "sample_1",
-        "name": "Woolf Sample",
+        "path": "m1-8-1",
+        "name": "M1-8, 1 of 10. [The great Elizabethan house, Penshurst...]. Holograph. In [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 60-76. 9p.",
         "pages": [
             "m1-8-1-1",
             "m1-8-1-2",
@@ -16,24 +16,736 @@
         "picturesAvailable": true
     },
     {
-        "path": "sample_2",
-        "name": "Medieval Sample",
+        "path": "m1-8-2",
+        "name": "M1-8, 2 of 10. Anon. Holograph. In [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 78-102. 15p.",
         "pages": [
-            "0007_KBR_1805-08_1r",
-            "0008_KBR_1805-08_1v",
-            "0009_KBR_1805-08_2r",
-            "0010_KBR_1805-08_2v",
-            "0011_KBR_1805-08_3r",
-            "0012_KBR_1805-08_3v"
+            "m1-8-2-1",
+            "m1-8-2-2",
+            "m1-8-2-3",
+            "m1-8-2-4",
+            "m1-8-2-5",
+            "m1-8-2-6",
+            "m1-8-2-7",
+            "m1-8-2-8",
+            "m1-8-2-9",
+            "m1-8-2-10",
+            "m1-8-2-11",
+            "m1-8-2-12",
+            "m1-8-2-13"
         ],
         "picturesAvailable": true
     },
     {
-        "path": "sample_3",
-        "name": "No image sample",
+        "path": "m1-8-3",
+        "name": "M1-8, 3 of 10. [Anon: For the long poem is luminous, radiant...]. Holograph. In [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 106-134. 15p.",
         "pages": [
-            "xml_A"
+            "m1-8-3-1",
+            "m1-8-3-2",
+            "m1-8-3-3",
+            "m1-8-3-4",
+            "m1-8-3-5",
+            "m1-8-3-6",
+            "m1-8-3-7",
+            "m1-8-3-8",
+            "m1-8-3-9",
+            "m1-8-3-10",
+            "m1-8-3-11",
+            "m1-8-3-12",
+            "m1-8-3-13",
+            "m1-8-3-14",
+            "m1-8-3-15"
         ],
-        "picturesAvailable": false
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-4",
+        "name": "M1-8, 4 of 10. [Anon: The loves &amp; hates of the Elizabethans themselves...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 8-16. 9p.",
+        "pages": [
+            "m1-8-4-1",
+            "m1-8-4-2",
+            "m1-8-4-3",
+            "m1-8-4-4",
+            "m1-8-4-5",
+            "m1-8-4-6",
+            "m1-8-4-7",
+            "m1-8-4-8",
+            "m1-8-4-9"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-5",
+        "name": "M1-8, 5 of 10. The Reader. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 17-20. 4p.",
+        "pages": [
+            "m1-8-5-1",
+            "m1-8-5-2",
+            "m1-8-5-3",
+            "m1-8-5-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-6",
+        "name": "M1-8, 6 of 10. [The readers faculty is a queer one...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 21-26. 6p.",
+        "pages": [
+            "m1-8-6-1",
+            "m1-8-6-2",
+            "m1-8-6-3",
+            "m1-8-6-4",
+            "m1-8-6-5",
+            "m1-8-6-6"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-7",
+        "name": "M1-8, 7 of 10. [The Reader: If you have read this brittle &amp; imperfect sketch...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 27-32. 6p.",
+        "pages": [
+            "m1-8-7-1",
+            "m1-8-7-2",
+            "m1-8-7-3",
+            "m1-8-7-4",
+            "m1-8-7-5",
+            "m1-8-7-6"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-8",
+        "name": "M1-8, 8 of 10. The Reader. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], p. 31. 1p.",
+        "pages": [
+            "m1-8-8-1"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-9",
+        "name": "M1-8, 9 of 10. The Reader. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 34-36. 3p.",
+        "pages": [
+            "m1-8-9-1",
+            "m1-8-9-2",
+            "m1-8-9-3"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m1-8-10",
+        "name": "M1-8, 10 of 10 [The Reader: The great house is visible in the pages...]. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 37-42. 6p.",
+        "pages": [
+            "m1-8-10-1",
+            "m1-8-10-2",
+            "m1-8-10-3",
+            "m1-8-10-4",
+            "m1-8-10-5",
+            "m1-8-10-6"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m45",
+        "name": "M45. Anon. Holograph fragment, unsigned, dated Nov. 24, 1940. 11p",
+        "pages": [
+            "m45-1",
+            "m45-2",
+            "m45-3",
+            "m45-4",
+            "m45-5",
+            "m45-6",
+            "m45-7",
+            "m45-8",
+            "m45-9",
+            "m45-10",
+            "m45-11",
+            "m45-12",
+            "m45-13",
+            "m45-14",
+            "m45-15",
+            "m45-16",
+            "m45-17",
+            "m45-18",
+            "m45-19",
+            "m45-20",
+            "m45-21",
+            "m45-22"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m46",
+        "name": "M46 [Anon: He has emerged then sufficiently from the undifferentiated voices of birds...]. Holograph fragment, undated. 9p.",
+        "pages": [
+            "m46-1",
+            "m46-2",
+            "m46-3",
+            "m46-4",
+            "m46-5",
+            "m46-6",
+            "m46-7",
+            "m46-8",
+            "m46-9",
+            "m46-10",
+            "m46-11",
+            "m46-12",
+            "m46-13",
+            "m46-14",
+            "m46-15",
+            "m46-16",
+            "m46-17",
+            "m46-18"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m47",
+        "name": "M47 [Anon: For why a gods name...]. Holograph fragments, undated. Some pages paginated 1-3. 10p.",
+        "pages": [
+            "m47-1",
+            "m47-2",
+            "m47-3",
+            "m47-4",
+            "m47-5",
+            "m47-6",
+            "m47-7",
+            "m47-8",
+            "m47-9",
+            "m47-10",
+            "m47-11",
+            "m47-12",
+            "m47-13",
+            "m47-14",
+            "m47-15",
+            "m47-16",
+            "m47-17",
+            "m47-18",
+            "m47-19",
+            "m47-20"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m48",
+        "name": "M48. Anon. Typescript fragment, with the author's ms. corrections, unsigned and undated. 2p.",
+        "pages": [
+            "m48-1",
+            "m48-2",
+            "m48-3",
+            "m48-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m49",
+        "name": "M49. [Anon: Anon died around 1477...]. Typescript fragment, with the author's ms. corrections, unsigned, and undated. 8p.",
+        "pages": [
+            "m49-1",
+            "m49-2",
+            "m49-3",
+            "m49-4",
+            "m49-5",
+            "m49-6",
+            "m49-7",
+            "m49-8",
+            "m49-9",
+            "m49-10",
+            "m49-11",
+            "m49-12",
+            "m49-13",
+            "m49-14",
+            "m49-15",
+            "m49-16"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m50",
+        "name": "M50. Anon. Typescript fragment, with the author's ms. corrections, unsigned and undated. 9p. Paginated 1-9.",
+        "pages": [
+            "m50-1",
+            "m50-2",
+            "m50-3",
+            "m50-4",
+            "m50-5",
+            "m50-6",
+            "m50-7",
+            "m50-8",
+            "m50-9",
+            "m50-10",
+            "m50-11",
+            "m50-12",
+            "m50-13",
+            "m50-14",
+            "m50-15",
+            "m50-16",
+            "m50-17",
+            "m50-18"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m51",
+        "name": "M51. Anon. Typescript fragment, with the author's ms. correction on p. 3, unsigned and undated. 9p. Wanting p. 1. Paginated 2-10",
+        "pages": [
+            "m51-1",
+            "m51-2",
+            "m51-3",
+            "m51-4",
+            "m51-5",
+            "m51-6",
+            "m51-7",
+            "m51-8",
+            "m51-9",
+            "m51-10",
+            "m51-11",
+            "m51-12",
+            "m51-13",
+            "m51-14",
+            "m51-15",
+            "m51-16",
+            "m51-17",
+            "m51-18"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m52",
+        "name": "M52. Anon. Typescript fragment with the author's ms. corrections, unsigned and undated. 19p.",
+        "pages": [
+            "m52-1",
+            "m52-2",
+            "m52-3",
+            "m52-4",
+            "m52-5",
+            "m52-6",
+            "m52-7",
+            "m52-8",
+            "m52-9",
+            "m52-10",
+            "m52-11",
+            "m52-12",
+            "m52-13",
+            "m52-14",
+            "m52-15",
+            "m52-16",
+            "m52-17",
+            "m52-18",
+            "m52-19",
+            "m52-20",
+            "m52-21",
+            "m52-22",
+            "m52-23",
+            "m52-24",
+            "m52-25",
+            "m52-26",
+            "m52-27",
+            "m52-28",
+            "m52-29",
+            "m52-30",
+            "m52-31",
+            "m52-32",
+            "m52-33",
+            "m52-34",
+            "m52-35",
+            "m52-36",
+            "m52-37"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m53",
+        "name": "M53. Anon. Typescript fragment, unsigned, dated Nov. 24, 1940. With the author's ms corrections. 26p.",
+        "pages": [
+            "m53-1",
+            "m53-2",
+            "m53-3",
+            "m53-4",
+            "m53-5",
+            "m53-6",
+            "m53-7",
+            "m53-8",
+            "m53-9",
+            "m53-10",
+            "m53-11",
+            "m53-12",
+            "m53-13",
+            "m53-14",
+            "m53-15",
+            "m53-16",
+            "m53-17",
+            "m53-18",
+            "m53-19",
+            "m53-20",
+            "m53-21",
+            "m53-22",
+            "m53-23",
+            "m53-24",
+            "m53-25",
+            "m53-26",
+            "m53-27",
+            "m53-28",
+            "m53-29",
+            "m53-30",
+            "m53-31",
+            "m53-32",
+            "m53-33",
+            "m53-34",
+            "m53-35",
+            "m53-36",
+            "m53-37",
+            "m53-38",
+            "m53-39",
+            "m53-40",
+            "m53-41",
+            "m53-42",
+            "m53-43",
+            "m53-44",
+            "m53-45",
+            "m53-46",
+            "m53-47",
+            "m53-48",
+            "m53-49",
+            "m53-50",
+            "m53-51",
+            "m53-52"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-1",
+        "name": "M54, 1 of 11. [Anon: The printing press brought the past into existence.]. Typescript fragment, 2 fols.",
+        "pages": [
+            "m54-1-1",
+            "m54-1-2",
+            "m54-1-3",
+            "m54-1-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-2",
+        "name": "M54, 2 of 11. [Anon: The historians work from the outer to the inner...]. Typescript fragment, 5 fols.",
+        "pages": [
+            "m54-2-1",
+            "m54-2-2",
+            "m54-2-3",
+            "m54-2-4",
+            "m54-2-5",
+            "m54-2-6",
+            "m54-2-7",
+            "m54-2-8",
+            "m54-2-9",
+            "m54-2-10"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-3",
+        "name": "M54, 3 of 11. [Anon: for coins. When he was walking...]. Typescript fragment, 4 fols.",
+        "pages": [
+            "m54-3-1",
+            "m54-3-2",
+            "m54-3-3",
+            "m54-3-4",
+            "m54-3-5",
+            "m54-3-6",
+            "m54-3-7",
+            "m54-3-8"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-4",
+        "name": "M54, 4 of 11. [Anon: Anon has emerged sufficiently from the forests...]. Typescript fragment, 2 fols.",
+        "pages": [
+            "m54-4-1",
+            "m54-4-2",
+            "m54-4-3",
+            "m54-4-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-5",
+        "name": "M54, 5 of 11. [Anon: a more crowded, a more divided audience...]. Typescript fragment, 3 fols.",
+        "pages": [
+            "m54-5-1",
+            "m54-5-2",
+            "m54-5-3",
+            "m54-5-4",
+            "m54-5-5",
+            "m54-5-6"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-6",
+        "name": "M54, 6 of 11. [Anon: the pear shaped lute; on which the Queen herself once played...]. Typescript fragment, 1 fol.",
+        "pages": [
+            "m54-6-1",
+            "m54-6-2"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-7",
+        "name": "M54, 7 of 11. [Anon: distinct from the minstrel, whose words are printed.]. Typescript fragment, 2 fols.",
+        "pages": [
+            "m54-7-1",
+            "m54-7-2",
+            "m54-7-3",
+            "m54-7-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-8",
+        "name": "M54, 8 of 11. [Anon: With that a joyous fellow issued]. Typescript fragment, 3 fols.",
+        "pages": [
+            "m54-8-1",
+            "m54-8-2",
+            "m54-8-3",
+            "m54-8-4",
+            "m54-8-5",
+            "m54-8-6"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-9",
+        "name": "M54, 9 of 11. [Anon: The road led to the old graves...]. Typescript fragment, 8 fols.",
+        "pages": [
+            "m54-9-1",
+            "m54-9-2",
+            "m54-9-3",
+            "m54-9-4",
+            "m54-9-5",
+            "m54-9-6",
+            "m54-9-7",
+            "m54-9-8",
+            "m54-9-9",
+            "m54-9-10",
+            "m54-9-11",
+            "m54-9-12",
+            "m54-9-13",
+            "m54-9-14",
+            "m54-9-15",
+            "m54-9-16"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-10",
+        "name": "M54, 10 of 11. [Anon: and the peasants to respect their mother tongue...]. Typescript fragment, 2 fols.",
+        "pages": [
+            "m54-10-1",
+            "m54-10-2",
+            "m54-10-3",
+            "m54-10-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m54-11",
+        "name": "M54, 11 of 11. [Anon: there is a jolt at the points...]. Typescript fragment, 1 fol.",
+        "pages": [
+            "m54-11-1",
+            "m54-11-2"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m73",
+        "name": "M73. [The Reader? Elizabethan clothes]. Holograph fragment, undated. 1p.",
+        "pages": [
+            "m73-1",
+            "m73-2"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m108",
+        "name": "M108 [The Reader: There is a jolt at the points.]. Typescript fragment, with the author's ms. corrections, unsigned and undated. 7p.",
+        "pages": [
+            "m108-1",
+            "m108-2",
+            "m108-3",
+            "m108-4",
+            "m108-5",
+            "m108-6",
+            "m108-7",
+            "m108-8",
+            "m108-9",
+            "m108-10",
+            "m108-11",
+            "m108-12",
+            "m108-13"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m109",
+        "name": "M109 [The Reader: At what point in Elizabethan drama...]. Typescript, fragment, with the author's ms. corrections, unsigned and undated. 9p.",
+        "pages": [
+            "m109-1",
+            "m109-2",
+            "m109-3",
+            "m109-4",
+            "m109-5",
+            "m109-6",
+            "m109-7",
+            "m109-8",
+            "m109-9",
+            "m109-10",
+            "m109-11",
+            "m109-12"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m110",
+        "name": "M110 [The Reader: Spenser with his eye upon the reader in the great room.]. Typescript fragment, with the author's ms. corrections, unsigned and undated. 5p.",
+        "pages": [
+            "m110-1",
+            "m110-2",
+            "m110-3",
+            "m110-4",
+            "m110-5",
+            "m110-6",
+            "m110-7",
+            "m110-8",
+            "m110-9",
+            "m110-10"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m111-1",
+        "name": "M111, Set 1 of 3, [The Reader: But her own passion, the disgrace, the humiliation...]. Typescript fragment, with the author's ms. corrections, unsigned and undated. 5 fols.",
+        "pages": [
+            "m111-1-1",
+            "m111-1-2",
+            "m111-1-3",
+            "m111-1-4",
+            "m111-1-5",
+            "m111-1-6",
+            "m111-1-7",
+            "m111-1-8",
+            "m111-1-9",
+            "m111-1-10"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m111-2",
+        "name": "M111, Set 2 of 3 [The Reader: Anonymity was a great possession]. Typescript fragment, unsigned and undated. 4 fols.",
+        "pages": [
+            "m111-2-1",
+            "m111-2-2",
+            "m111-2-3",
+            "m111-2-4",
+            "m111-2-5",
+            "m111-2-6",
+            "m111-2-7",
+            "m111-2-8"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m111-3",
+        "name": "M111, set 3 of 3 [The Reader: Anonymity was a great possession]. Typescript fragment, with the author's ms. corrections. 6 fols.",
+        "pages": [
+            "m111-3-1",
+            "m111-3-2",
+            "m111-3-3",
+            "m111-3-4",
+            "m111-3-5",
+            "m111-3-6",
+            "m111-3-7",
+            "m111-3-8",
+            "m111-3-9",
+            "m111-3-10",
+            "m111-3-11",
+            "m111-3-12"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m112-1",
+        "name": "M112, set 1 of 3 [The Reader: But again down on the Bankside...]. Typescript fragment with the author's ms. corrections, unsigned and undated. 4 fols.",
+        "pages": [
+            "m112-1-1",
+            "m112-1-2",
+            "m112-1-3",
+            "m112-1-4",
+            "m112-1-5",
+            "m112-1-6",
+            "m112-1-7",
+            "m112-1-8"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m112-2",
+        "name": "M112, Set 2 of 3 [The Reader: must in order to sit and stand there, while the sun beats...]. Typescript fragment, unsigned and undated with the author's ms. additions. 2 fols.",
+        "pages": [
+            "m112-2-1",
+            "m112-2-2",
+            "m112-2-3",
+            "m112-2-4"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m112-3",
+        "name": "M112, Set 3 of 3 [The Reader: so long as the play was dominant.]. Typescript fragment, unsigned and undated. 3 fols.",
+        "pages": [
+            "m112-3-1",
+            "m112-3-2",
+            "m112-3-3",
+            "m112-3-4",
+            "m112-3-5",
+            "m112-3-6"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "m113",
+        "name": "M113 [The Reader: This brittle and imperfect sketch...]. Typescript fragments, one with the author's ms. corrections, unsigned and undated. 5 fols.",
+        "pages": [
+            "m113-1",
+            "m113-2",
+            "m113-3",
+            "m113-4",
+            "m113-5",
+            "m113-6",
+            "m113-7",
+            "m113-8",
+            "m113-9",
+            "m113-10"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "rn2",
+        "name": "RN2. [Holograph reading notes] Notes for reading at random. Holograph notebook, dated Sept. 18, 1940. 8p.",
+        "pages": [
+            "rn2-1",
+            "rn2-2",
+            "rn2-3",
+            "rn2-4",
+            "rn2-5",
+            "rn2-6",
+            "rn2-7",
+            "rn2-8"
+        ],
+        "picturesAvailable": true
+    },
+    {
+        "path": "tl1",
+        "name": "T.L. (typescript draft letter, fragment) to Ben [Nicolson]. [Aug. 24, 1940] 1p. On verso her [The Reader] Typescript fragment.",
+        "pages": [
+            "tl1-1",
+            "tl1-2"
+        ],
+        "picturesAvailable": true
     }
 ]
