@@ -19,6 +19,12 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
     const customRenderers = {
         "abbr": (node, children, attributes) => <span {...attributes}>{children}</span>,
         "expan": (node, children, attributes) => <span style={{ display: 'none' }} {...attributes}>{children}</span>,
+        "rs": (node, children, attributes) => {
+            const xmlId=attributes['xml:id'] || "#";
+            const basePath = "./src/assets/annotations.xml#";
+            const href= xmlId ? `${basePath}${xmlId}` : "#"
+            return <Fragment><a href={href}>{children}</a></Fragment>
+        }
     }
 
     const onToolSelect = () => {

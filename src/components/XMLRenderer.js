@@ -72,12 +72,7 @@ export function XMLRenderer({
             'lg': (node, children, attributes) => <Fragment>{children}</Fragment>,
             'l': (node, children, attributes) => <Fragment><span {...attributes}>{children}</span><br /></Fragment>,
             'lb': (node, children, attributes) => <Fragment><span {...attributes} /><br /></Fragment>,
-            'rs': (node, children, attributes) => {
-                const xmlId=attributes['xml:id'] || "#";
-                const basePath = "./src/assets/annotations.xml#";
-                const href= xmlId ? `${basePath}${xmlId}` : "#"
-                return <Fragment><a href={href}>{children}</a></Fragment>
-            }
+
         };
 
         const runPlugins = (node, children, attributes) => {
