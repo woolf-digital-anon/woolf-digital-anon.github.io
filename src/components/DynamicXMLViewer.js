@@ -7,12 +7,18 @@ import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
 import { scrollIntoView } from "seamless-scroll-polyfill";
 import {saveAs} from 'file-saver';
 import {XMLRenderer} from "./XMLRenderer";
+import {NoteModal} from "./NoteModal";
 
 
 export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones}) {
     const [xmlText, setXmlText] = useState("");
     const [showRender, setShowRender] = useState(true);
     const [abbr, setAbbr] = useState(true);
+
+    // notes modal state
+    const [noteModalOpen, setNoteModalOpen] = useState(false);
+    const [noteTitle, setNoteTitle] = useState(null);
+    const [noteText, setNoteText] = useState(null);
 
     const containerRef = useRef(null);
 
@@ -23,7 +29,20 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
             const xmlId=attributes['xml:id'] || "#";
             const basePath = "./src/assets/annotations.xml#";
             const href= xmlId ? `${basePath}${xmlId}` : "#"
-            return <Fragment><a href={href}>{children}</a></Fragment>
+
+            // click handler to open NoteModal
+            const handleClick = (e) => {
+                e.preventDefault();
+                setNoteModalOpen(true);
+                setNoteTitle(xmlId || "No Title");
+            }
+
+            return <Fragment><a 
+                href={href}
+                onClick={handleClick}
+                style={{ cursor: 'pointer' }}>
+                    {children}
+                </a></Fragment>
         }
     }
 
@@ -145,6 +164,12 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
                 </div>
 
             </div>
+
+            <NoteModal
+                noteModalOpen={noteModalOpen}
+                setNoteModalOpen={setNoteModalOpen}
+                noteTitle={noteTitle}
+            />
         </Fragment>
 
     )
