@@ -33,6 +33,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
             // click handler to open NoteModal
             const handleClick = (e) => {
                 e.preventDefault();
+                // console.log("Setting noteTitle to:", xmlId);
                 setNoteModalOpen(true);
                 setNoteId(xmlId || "No Title");
             }

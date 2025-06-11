@@ -38,7 +38,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         <Modal.Header closeButton>
           <Modal.Title>{noteId}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{xmlContent}</Modal.Body>
+        <Modal.Title>This is a modal.</Modal.Title>
       </Modal>
     </div>
   )
