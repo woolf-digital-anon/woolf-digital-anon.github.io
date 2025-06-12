@@ -17,7 +17,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
     // notes modal state
     const [noteModalOpen, setNoteModalOpen] = useState(false);
-    const [noteTitle, setNoteTitle] = useState(null);
+    const [noteId, setNoteId] = useState(null);
     const [noteText, setNoteText] = useState(null);
 
     const containerRef = useRef(null);
@@ -34,7 +34,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
             const handleClick = (e) => {
                 e.preventDefault();
                 setNoteModalOpen(true);
-                setNoteTitle(xmlId || "No Title");
+                setNoteId(xmlId || "No Title");
             }
 
             return <Fragment><a 
@@ -168,7 +168,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
             <NoteModal
                 noteModalOpen={noteModalOpen}
                 setNoteModalOpen={setNoteModalOpen}
-                noteTitle={noteTitle}
+                noteId={noteId}
             />
         </Fragment>
 
