@@ -1,12 +1,11 @@
-export const worksCited = (element, biblStruct) => {
-  if (!element) return null;
+import { Fragment, useState, useEffect } from 'react';
 
-  const itemArray = {};
-  const items = element.querySelector('biblStruct')
-
-  items.forEach(items => {
-    const type = biblStruct.getAttribute('type')
-    console.log(type)
-  })
-
+export function WorksCited({ xmlContent }) {
+  const [works, setWorks] = useState([]);
+  
+  return (
+    <Fragment>
+      <strong>Works Cited</strong>
+    </Fragment>
+  )
 }

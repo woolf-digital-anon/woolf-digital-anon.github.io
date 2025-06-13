@@ -1,8 +1,9 @@
 import { Fragment, useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import * as AppUtil from '../util/app-util';
 import { getEventDate, getEventDateStructured, formatDate } from "../util/date-helper"
-import worksCited from '../util/bib-helper'
+import { getNoteTextWithMarkup, findAnnotationById, handleAnnotationLinkClick } from '../util/note-link-helper';
+//import { WorksCited } from '../util/bib-helper'
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -10,8 +11,10 @@ import Button from 'react-bootstrap/Button';
 export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
   const notesData = "https://raw.githubusercontent.com/JoshuaAPhillips/digital-anon/refs/heads/main/resources/annotations.xml";
   const handleClose = () => setNoteModalOpen(false);
+  const navigate = useNavigate();
   const [xmlContent, setXmlContent] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // summons modal and data
   useEffect(() => {
@@ -37,6 +40,20 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         });
     }
   }, [noteModalOpen, noteId]);
+
+  // Handle internal link clicks using URL parameters
+  const handleInternalLinkClick = (targetId) => {
+    // Update the URL parameter while keeping the modal open
+    // This assumes your parent component watches for URL parameter changes
+    // and updates the noteId prop accordingly
+    
+    // Option 1: Update search params (e.g., ?note=targetId)
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('note', targetId);
+      return newParams;
+    });
+  }
 
   // helper function using CSS selectors and XPath-like targeting
   const findElementById = (xmlDoc, id) => {
@@ -64,27 +81,56 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     return null;
   };
 
-  // More sophisticated note text extraction with markup preservation options
-  const getNoteTextWithMarkup = (element, preserveMarkup = true) => {
-    const noteElement = element.querySelector('note');
-    if (!noteElement) return null;
+  // // More sophisticated note text extraction with markup preservation options
+  // const getNoteTextWithMarkup = (element, preserveMarkup = true) => {
+  //   const noteElement = element.querySelector('note');
+  //   if (!noteElement) return null;
     
-    if (preserveMarkup) {
-      // Convert XML markup to HTML for display
-      let htmlContent = noteElement.innerHTML;
+  //   if (preserveMarkup) {
+  //     // Clone the note element to avoid modifying the original
+  //     const clonedNote = noteElement.cloneNode(true);
       
-      // Convert common XML tags to HTML equivalents
-      htmlContent = htmlContent
-        .replace(/<rs[^>]*>/g, '<a href="#">')
-        .replace(/<\/rs>/g, '</a>')
-        .replace(/<hi[^>]*>/g, '<em>')
-        .replace(/<\/hi>/g, '</em>');
+  //     // Find all <rs> elements and convert them to <a> elements
+  //     const rsElements = clonedNote.querySelectorAll('rs');
+  //     rsElements.forEach(rs => {
+  //       // Create a new <a> element
+  //       const anchor = document.createElement('a');
+        
+  //       // Get the xml:id attribute (try different ways it might be stored)
+  //       const xmlId = rs.getAttribute('xml:id') || 
+  //                   rs.getAttribute('xmlId') || 
+  //                   rs.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id');
+        
+  //       // Set href attribute
+  //       if (xmlId) {
+  //         anchor.href = '#' + xmlId;
+  //       } else {
+  //         anchor.href = '#';
+  //       }
+        
+  //       // Add styling
+  //       anchor.style.cursor = 'pointer';
+        
+  //       // Copy the text content
+  //       anchor.innerHTML = rs.innerHTML;
+        
+  //       // Replace the <rs> element with the <a> element
+  //       rs.parentNode.replaceChild(anchor, rs);
+  //     });
       
-      return htmlContent.trim();
-    } else {
-      return noteElement.textContent.trim().replace(/\s+/g, ' ');
-    }
-  };
+  //     // Convert other common XML tags to HTML equivalents
+  //     const hiElements = clonedNote.querySelectorAll('hi');
+  //     hiElements.forEach(hi => {
+  //       const em = document.createElement('em');
+  //       em.innerHTML = hi.innerHTML;
+  //       hi.parentNode.replaceChild(em, hi);
+  //     });
+      
+  //     return clonedNote.innerHTML.trim();
+  //   } else {
+  //     return noteElement.textContent.trim().replace(/\s+/g, ' ');
+  //   }
+  // };
 
   const formatNoteContent = (element) => {
     if (!element) return { title: "Unknown", content: "Element not found" };
@@ -103,6 +149,9 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         .join(' ');
     };
 
+    
+
+
     // logic to summon and format data
     switch (tagName) {
       case 'bibl':
@@ -110,16 +159,15 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const author = getChildText('author')
         const date = getEventDate(element, 'composition');
 
-        const note_bibl = getNoteTextWithMarkup(element);
+        const note_bibl = getNoteTextWithMarkup(element, handleInternalLinkClick);
 
 
-        let content = '';
-        if (author) content += `<p><strong>Author:</strong> ${author}</p>`;
-        if (date) content += `<p><strong>Composition date:</strong> ${formatDate(date)}</p>`;
-        if (note_bibl) content += `<p>${note_bibl}</p>`;
+        let biblContent = '';
+        if (author) biblContent += `<p><strong>Author:</strong> ${author}</p>`;
+        if (date) biblContent += `<p><strong>Composition date:</strong> ${formatDate(date)}</p>`;
+        if (note_bibl) biblContent += `<p>${note_bibl}</p>`;
 
-
-        return { title, content: content || getDirectText() };
+        return { title, content: biblContent || getDirectText() };
 
       case 'person':
         const personName = getChildText('persName') || getChildText('name') || 'Person';
@@ -127,6 +175,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const death = getEventDate(element, 'death');
 
         const note_person = getNoteTextWithMarkup(element);
+
 
         let personContent = '';
         if (birth) personContent += `<p><strong>Birth:</strong> ${formatDate(birth)}</p>`;
