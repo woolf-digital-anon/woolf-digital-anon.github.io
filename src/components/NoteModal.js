@@ -1,5 +1,5 @@
-import {fragment, useState, useEffect} from 'react';
-import {useParams, useNavigate} from 'react-router-dom';
+import { Fragment, useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as AppUtil from '../util/app-util';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
@@ -9,105 +9,134 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
   const notesData = "https://raw.githubusercontent.com/JoshuaAPhillips/digital-anon/refs/heads/main/resources/annotations.xml";
   const handleClose = () => setNoteModalOpen(false);
   const [xmlContent, setXmlContent] = useState('');
-  const [modalTitle, setModalTitle] = useState('')
-
-  //helper function to find elements by xml:id
-
-  const findElementById = (xmlDoc, id) => {
-      const tagTypes = ['bibl', 'person', 'place']
-
-      for (const tagType of tagTypes) {
-        const elements = xmlDoc.getElementsByTagName(tagType);
-        for (let i = 0; i < elements.length; i++) {
-          const element = elements[i];
-          if (element.getAttribute('xml:id') === id || 
-              element.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id') === id) {
-            return { element, type: tagType };
-          }
-        }
-      }
-      return null;
-  }
-
-  //helper function to format content based on element type
-
-  const formatNoteContent = (element, type) => {
-      const getChildText = (el, tagName) => {
-    if (!el) return null;
-    
-    let child = null;
-    
-    if (typeof el.getElementsByTagName === 'function') {
-      child = el.getElementsByTagName(tagName)[0];
-    }
-    
-    return child ? child.textContent.trim() : null;
-  };
-  
-  if (!element) return "Element is undefined";
-  
-  switch (type) {
-    case 'bibl':
-      if (!element) {
-        return "Element is undefined";
-      }
-      
-      const title = getChildText(element, "title");
-      const note = getChildText(element, "note");
-      
-      let biblContent = "";
-
-      if (note) biblContent += `<p>${note}</p>`;
-            
-      return {
-        title: title,
-        content: biblContent
-      }
-
-      case 'person':
-
-        const firstName = getChildText
-
-        let personContent = ""
-        return personContent || element.textContent;
-
-    case 'place':
-
-      let placeContent = ""
-      return placeContent || element.textContent;
-
-    default: 
-      return element.textContent
-    }
-  }
-
+  const [modalTitle, setModalTitle] = useState('');
 
   useEffect(() => {
     if (noteModalOpen) {
       fetch(notesData)
-      .then(response => response.text())
-      .then(data => {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, 'application/xhtml+xml')
-
-        const result = findElementById(xmlDoc, noteId)
-
-        if (result) {
-          const { element, type } = result;
-          const { title, content } = formatNoteContent(element, type)
-          setModalTitle(title)
-          setXmlContent(content)
-        } else { 
-          setXmlContent(`No person, bibl, or place found with ID: ${noteId}`)
-        }
-      })
-      .catch(e => {
-        console.error("Error fetching annotations.xml", e)
-        setXmlContent("Error loading note content.")
-      })
+        .then(response => response.text())
+        .then(data => {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data, 'text/xml'); // Use text/xml for better XML handling
+          
+          const element = findElementById(xmlDoc, noteId);
+          if (element) {
+            const { title, content } = formatNoteContent(element);
+            setModalTitle(title);
+            setXmlContent(content);
+          } else {
+            setXmlContent(`No element found with ID: ${noteId}`);
+          }
+        })
+        .catch(e => {
+          console.error("Error fetching annotations.xml", e);
+          setXmlContent("Error loading note content.");
+        });
     }
-      
   }, [noteModalOpen, noteId]);
+
+  // Enhanced helper function using CSS selectors and XPath-like targeting
+  const findElementById = (xmlDoc, id) => {
+    // Try CSS selector approach first (more efficient)
+    const selectorTargets = [
+      `bibl[xml\\:id="${id}"]`,
+      `person[xml\\:id="${id}"]`, 
+      `place[xml\\:id="${id}"]`
+    ];
+    
+    for (const selector of selectorTargets) {
+      const element = xmlDoc.querySelector(selector);
+      if (element) return element;
+    }
+    
+    // Fallback to attribute-based search
+    const allElements = xmlDoc.querySelectorAll('bibl, person, place');
+    for (const element of allElements) {
+      if (element.getAttribute('xml:id') === id || 
+          element.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id') === id) {
+        return element;
+      }
+    }
+    
+    return null;
+  };
+
+  // Simplified content formatting using direct element queries
+  const formatNoteContent = (element) => {
+    if (!element) return { title: "Unknown", content: "Element not found" };
+    
+    const tagName = element.tagName.toLowerCase();
+    const getChildText = (selector) => {
+      const child = element.querySelector(selector);
+      return child ? child.textContent.trim() : null;
+    };
+    
+    const getDirectText = () => {
+      // Get direct text content, excluding nested elements
+      return Array.from(element.childNodes)
+        .filter(node => node.nodeType === Node.TEXT_NODE)
+        .map(node => node.textContent.trim())
+        .filter(text => text.length > 0)
+        .join(' ');
+    };
+
+    switch (tagName) {
+      case 'bibl':
+        const title = getChildText('title') || 'Bibliography Entry';
+        const note = getChildText('note');
+        const author = getChildText('author');
+        const date = getChildText('date');
+        
+        let content = '';
+        if (author) content += `<p><strong>Author:</strong> ${author}</p>`;
+        if (date) content += `<p><strong>Date:</strong> ${date}</p>`;
+        if (note) content += `<p>${note}</p>`;
+        
+        return { title, content: content || getDirectText() };
+        
+      case 'person':
+        const personName = getChildText('persName') || getChildText('name') || 'Person';
+        const birth = getChildText('birth');
+        const death = getChildText('death');
+        const occupation = getChildText('occupation');
+        const note_person = getChildText('note');
+        
+        let personContent = '';
+        if (birth) personContent += `<p><strong>Birth:</strong> ${birth}</p>`;
+        if (death) personContent += `<p><strong>Death:</strong> ${death}</p>`;
+        if (occupation) personContent += `<p><strong>Occupation:</strong> ${occupation}</p>`;
+        if (note_person) personContent += `<p>${note_person}</p>`;
+        
+        return { 
+          title: personName, 
+          content: personContent || getDirectText() || element.textContent.trim()
+        };
+        
+      case 'place':
+        const placeName = getChildText('placeName') || getChildText('name') || 'Place';
+        const country = getChildText('country');
+        const region = getChildText('region');
+        const settlement = getChildText('settlement');
+        const note_place = getChildText('note');
+        
+        let placeContent = '';
+        if (settlement) placeContent += `<p><strong>Settlement:</strong> ${settlement}</p>`;
+        if (region) placeContent += `<p><strong>Region:</strong> ${region}</p>`;
+        if (country) placeContent += `<p><strong>Country:</strong> ${country}</p>`;
+        if (note_place) placeContent += `<p>${note_place}</p>`;
+        
+        return { 
+          title: placeName, 
+          content: placeContent || getDirectText() || element.textContent.trim()
+        };
+        
+      default:
+        return { 
+          title: tagName.charAt(0).toUpperCase() + tagName.slice(1), 
+          content: element.textContent.trim() 
+        };
+    }
+  };
 
   return (
     <div>
@@ -118,5 +147,5 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         <Modal.Body dangerouslySetInnerHTML={{ __html: xmlContent }} />
       </Modal>
     </div>
-  )
+  );
 }
