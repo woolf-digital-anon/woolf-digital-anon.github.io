@@ -1,6 +1,7 @@
 import { Fragment, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as AppUtil from '../util/app-util';
+import { getEventDate, formatDate } from "../util/date-helper"
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -11,13 +12,14 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
   const [xmlContent, setXmlContent] = useState('');
   const [modalTitle, setModalTitle] = useState('');
 
+  // summons modal and data
   useEffect(() => {
     if (noteModalOpen) {
       fetch(notesData)
         .then(response => response.text())
         .then(data => {
           const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(data, 'text/xml'); // Use text/xml for better XML handling
+          const xmlDoc = parser.parseFromString(data, 'text/xml');
           
           const element = findElementById(xmlDoc, noteId);
           if (element) {
@@ -35,7 +37,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     }
   }, [noteModalOpen, noteId]);
 
-  // Enhanced helper function using CSS selectors and XPath-like targeting
+  // helper function using CSS selectors and XPath-like targeting
   const findElementById = (xmlDoc, id) => {
     // Try CSS selector approach first (more efficient)
     const selectorTargets = [
@@ -80,6 +82,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         .join(' ');
     };
 
+    // logic to summon and format data
     switch (tagName) {
       case 'bibl':
         const title = getChildText('title') || 'Bibliography Entry';
@@ -96,8 +99,10 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         
       case 'person':
         const personName = getChildText('persName') || getChildText('name') || 'Person';
-        const birth = getChildText('birth');
-        const death = getChildText('death');
+        const birthString = getEventDate(element, 'birth');
+        const deathString = getEventDate(element, 'death');
+        const birth = formatDate(birthString)
+        const death = formatDate(deathString)
         const occupation = getChildText('occupation');
         const note_person = getChildText('note');
         
@@ -140,7 +145,11 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
 
   return (
     <div>
-      <Modal show={noteModalOpen} onHide={handleClose}>
+      <Modal 
+        show={noteModalOpen} 
+        onHide={handleClose}
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
