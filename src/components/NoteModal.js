@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as AppUtil from '../util/app-util';
 import { getEventDate, getEventDateStructured, formatDate } from "../util/date-helper"
+import worksCited from '../util/bib-helper'
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -39,7 +40,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
 
   // helper function using CSS selectors and XPath-like targeting
   const findElementById = (xmlDoc, id) => {
-    // Try CSS selector approach first (more efficient)
+
     const selectorTargets = [
       `bibl[xml\\:id="${id}"]`,
       `person[xml\\:id="${id}"]`,
@@ -63,7 +64,28 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     return null;
   };
 
-  // Simplified content formatting using direct element queries
+  // More sophisticated note text extraction with markup preservation options
+  const getNoteTextWithMarkup = (element, preserveMarkup = true) => {
+    const noteElement = element.querySelector('note');
+    if (!noteElement) return null;
+    
+    if (preserveMarkup) {
+      // Convert XML markup to HTML for display
+      let htmlContent = noteElement.innerHTML;
+      
+      // Convert common XML tags to HTML equivalents
+      htmlContent = htmlContent
+        .replace(/<rs[^>]*>/g, '<a href="#">')
+        .replace(/<\/rs>/g, '</a>')
+        .replace(/<hi[^>]*>/g, '<em>')
+        .replace(/<\/hi>/g, '</em>');
+      
+      return htmlContent.trim();
+    } else {
+      return noteElement.textContent.trim().replace(/\s+/g, ' ');
+    }
+  };
+
   const formatNoteContent = (element) => {
     if (!element) return { title: "Unknown", content: "Element not found" };
 
@@ -74,7 +96,6 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     };
 
     const getDirectText = () => {
-      // Get direct text content, excluding nested elements
       return Array.from(element.childNodes)
         .filter(node => node.nodeType === Node.TEXT_NODE)
         .map(node => node.textContent.trim())
@@ -86,14 +107,17 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     switch (tagName) {
       case 'bibl':
         const title = getChildText('title') || 'Bibliography Entry';
-        const note = getChildText('note');
-        const author = getChildText('author');
+        const author = getChildText('author')
         const date = getEventDate(element, 'composition');
+
+        const note_bibl = getNoteTextWithMarkup(element);
+
 
         let content = '';
         if (author) content += `<p><strong>Author:</strong> ${author}</p>`;
         if (date) content += `<p><strong>Composition date:</strong> ${formatDate(date)}</p>`;
-        if (note) content += `<p>${note}</p>`;
+        if (note_bibl) content += `<p>${note_bibl}</p>`;
+
 
         return { title, content: content || getDirectText() };
 
@@ -102,7 +126,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const birth = getEventDate(element, 'birth');
         const death = getEventDate(element, 'death');
 
-        const note_person = getChildText('note');
+        const note_person = getNoteTextWithMarkup(element);
 
         let personContent = '';
         if (birth) personContent += `<p><strong>Birth:</strong> ${formatDate(birth)}</p>`;
@@ -119,7 +143,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const country = getChildText('country');
         const region = getChildText('region');
         const settlement = getChildText('settlement');
-        const note_place = getChildText('note');
+        const note_place = getNoteTextWithMarkup(element);
 
         let placeContent = '';
         if (settlement) placeContent += `<p><strong>Settlement:</strong> ${settlement}</p>`;
