@@ -197,7 +197,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     }
 
     // Fallback to attribute-based search
-    const allElements = xmlDoc.querySelectorAll('bibl, person, place', 'object');
+    const allElements = xmlDoc.querySelectorAll('bibl, person, place, object');
     for (const element of allElements) {
       if (element.getAttribute('xml:id') === id ||
         element.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id') === id) {
@@ -257,11 +257,30 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         hi.parentNode.replaceChild(em, hi);
       });
       
-      return clonedNote.innerHTML.trim();
+      // Handle newlines and line breaks
+      let htmlContent = clonedNote.innerHTML.trim();
+      
+      // Convert various newline patterns to <br> tags
+      htmlContent = htmlContent
+        // Handle explicit line break elements if they exist
+        .replace(/<lb\s*\/?>/gi, '<br>')
+        .replace(/<br\s*\/?>/gi, '<br>')
+        // Convert newlines to <br> tags, but be careful not to break existing HTML
+        .replace(/\n\s*\n/g, '</p><p>')  // Double newlines become paragraph breaks
+        .replace(/(?<=>)\s*\n\s*(?=<)/g, ' ')  // Remove newlines between HTML tags
+        .replace(/\n/g, '<br>');  // Single newlines become <br> tags
+      
+      // Wrap in paragraphs if not already wrapped and contains paragraph breaks
+      if (htmlContent.includes('</p><p>') && !htmlContent.startsWith('<p>')) {
+        htmlContent = '<p>' + htmlContent + '</p>';
+      }
+      
+      return htmlContent;
     } else {
       return noteElement.textContent.trim().replace(/\s+/g, ' ');
     }
   };
+
 
   const formatNoteContent = (element) => {
     if (!element) return { title: "Unknown", content: "Element not found" };
@@ -355,7 +374,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
       <Modal
         show={noteModalOpen}
         onHide={handleClose}
-        size="lg"
+        size="xl"
       >
         <Modal.Header closeButton>
           <div className="d-flex align-items-center w-100">
