@@ -16,8 +16,47 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
   const [modalTitle, setModalTitle] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const modalBodyRef = useRef(null);
+  
+  // Navigation history state
+  const [noteHistory, setNoteHistory] = useState([]);
+  const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [noteHistoryTitles, setNoteHistoryTitles] = useState([]);
 
-  // summons modal and data
+
+  // Track navigation history when noteId changes
+  useEffect(() => {
+    if (noteId && noteModalOpen && !isNavigating) {
+      setNoteHistory(prev => {
+        // If we're not at the end of history, truncate everything after current position
+        const newHistory = currentHistoryIndex >= 0 ? prev.slice(0, currentHistoryIndex + 1) : [];
+        
+        // Don't add duplicate consecutive entries
+        if (newHistory.length === 0 || newHistory[newHistory.length - 1] !== noteId) {
+          const updatedHistory = [...newHistory, noteId];
+          setCurrentHistoryIndex(updatedHistory.length - 1);
+
+          // Also update titles history
+          setNoteHistoryTitles(prevTitles => {
+            const newTitles = currentHistoryIndex >= 0 ? prevTitles.slice(0, currentHistoryIndex + 1) : [];
+            return [...newTitles, modalTitle];
+          });
+
+          return updatedHistory;
+        }
+        return newHistory;
+      });
+    }
+    setIsNavigating(false);
+  }, [noteId, noteModalOpen]);
+
+  // Reset history when modal closes
+  useEffect(() => {
+    if (!noteModalOpen) {
+      setNoteHistory([]);
+      setCurrentHistoryIndex(-1);
+    }
+  }, [noteModalOpen]);
   useEffect(() => {
     if (noteModalOpen) {
       fetch(notesData)
@@ -42,7 +81,26 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     }
   }, [noteModalOpen, noteId]);
 
-  // Handle click events on internal links after content is rendered
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!noteModalOpen) return;
+      
+      // Alt + Left Arrow = Back
+      if (e.altKey && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goBack();
+      }
+      // Alt + Right Arrow = Forward
+      else if (e.altKey && e.key === 'ArrowRight') {
+        e.preventDefault();
+        goForward();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [noteModalOpen, currentHistoryIndex, noteHistory]);
   useEffect(() => {
     if (modalBodyRef.current && xmlContent) {
       const links = modalBodyRef.current.querySelectorAll('a[data-internal-link]');
@@ -68,7 +126,53 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     }
   }, [xmlContent]);
 
-  // Handle internal link clicks using URL parameters
+  // Navigation functions
+  const goBack = () => {
+    if (canGoBack()) {
+      setIsNavigating(true);
+      const newIndex = currentHistoryIndex - 1;
+      setCurrentHistoryIndex(newIndex);
+      const targetNoteId = noteHistory[newIndex];
+      
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set('note', targetNoteId);
+        return newParams;
+      });
+    }
+  };
+
+  const goForward = () => {
+    if (canGoForward()) {
+      setIsNavigating(true);
+      const newIndex = currentHistoryIndex + 1;
+      setCurrentHistoryIndex(newIndex);
+      const targetNoteId = noteHistory[newIndex];
+      
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set('note', targetNoteId);
+        return newParams;
+      });
+    }
+  };
+
+  const canGoBack = () => {
+    return currentHistoryIndex > 0;
+  };
+
+  const canGoForward = () => {
+    return currentHistoryIndex < noteHistory.length - 1;
+  };
+    // Get navigation context for display
+  const getNavigationContext = () => {
+    const prevTitle = canGoBack() ? noteHistoryTitles[currentHistoryIndex - 1] : null;
+    const nextTitle = canGoForward() ? noteHistoryTitles[currentHistoryIndex + 1] : null;
+    
+    return { prevTitle, nextTitle };
+  };
+
+  // Handle internal link clicks
   const handleInternalLinkClick = (targetId) => {
     // Update the URL parameter while keeping the modal open
     setSearchParams(prev => {
@@ -83,7 +187,8 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     const selectorTargets = [
       `bibl[xml\\:id="${id}"]`,
       `person[xml\\:id="${id}"]`,
-      `place[xml\\:id="${id}"]`
+      `place[xml\\:id="${id}"]`,
+      `object[xml\\:id="${id}"]`
     ];
 
     for (const selector of selectorTargets) {
@@ -92,7 +197,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     }
 
     // Fallback to attribute-based search
-    const allElements = xmlDoc.querySelectorAll('bibl, person, place');
+    const allElements = xmlDoc.querySelectorAll('bibl, person, place', 'object');
     for (const element of allElements) {
       if (element.getAttribute('xml:id') === id ||
         element.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id') === id) {
@@ -226,6 +331,17 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
           content: placeContent || getDirectText() || element.textContent.trim()
         };
 
+        case 'object':
+        const objectName = getChildText('objectName') || getChildText('name') || 'Object';
+        const note_object = getNoteTextWithMarkup(element);
+        
+        let objectContent = '';
+
+        if (note_object) objectContent += `<p>${note_object}</p>`;
+        return {
+          title: objectName,
+          content: objectContent || getDirectText() || element.textContent.trim()
+        };
       default:
         return {
           title: tagName.charAt(0).toUpperCase() + tagName.slice(1),
@@ -242,7 +358,57 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>{modalTitle}</Modal.Title>
+          <div className="d-flex align-items-center w-100">
+            <div className="me-3">
+              <Button 
+                variant="outline-secondary" 
+                size="sm" 
+                onClick={goBack}
+                disabled={!canGoBack()}
+                title="Go back (Alt + ←)"
+                className="me-2"
+              >
+                ←
+              </Button>
+              <Button 
+                variant="outline-secondary" 
+                size="sm" 
+                onClick={goForward}
+                disabled={!canGoForward()}
+                title="Go forward (Alt + →)"
+              >
+                →
+              </Button>
+            </div>
+            <div className="flex-grow-1">
+              <Modal.Title>{modalTitle}</Modal.Title>
+              {noteHistory.length > 1 && (
+                <div className="d-flex flex-column">
+                  {(() => {
+                    const { prevTitle, nextTitle } = getNavigationContext();
+                    return (
+                      <div className="d-flex justify-content-between">
+                        <small className="text-muted" style={{ maxWidth: '45%' }}>
+                          {prevTitle && (
+                            <span title={`Previous: ${prevTitle}`}>
+                              ← {prevTitle.length > 20 ? prevTitle.substring(0, 20) + '...' : prevTitle}: Previous
+                            </span>
+                          )}
+                        </small>
+                        <small className="text-muted" style={{ maxWidth: '45%' }}>
+                          {nextTitle && (
+                            <span title={`Next: ${nextTitle}`}>
+                              Next: {nextTitle.length > 20 ? nextTitle.substring(0, 20) + '...' : nextTitle} →
+                            </span>
+                          )}
+                        </small>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          </div>
         </Modal.Header>
         <Modal.Body 
           ref={modalBodyRef}
