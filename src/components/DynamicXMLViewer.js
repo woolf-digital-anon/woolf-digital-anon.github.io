@@ -8,6 +8,7 @@ import { scrollIntoView } from "seamless-scroll-polyfill";
 import {saveAs} from 'file-saver';
 import {XMLRenderer} from "./XMLRenderer";
 import {NoteModal} from "./NoteModal";
+import { useSearchParams } from 'react-router-dom';
 
 
 export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones}) {
@@ -16,9 +17,24 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
     const [abbr, setAbbr] = useState(true);
 
     // notes modal state
+    const [searchParams, setSearchParams] = useSearchParams();
     const [noteModalOpen, setNoteModalOpen] = useState(false);
     const [noteId, setNoteId] = useState(null);
     const [noteText, setNoteText] = useState(null);
+    const [currentNoteId, setCurrentNoteId] = useState(null);
+
+    useEffect(() => {
+        const noteIdFromUrl = searchParams.get('note');
+        if (noteIdFromUrl) {
+            setCurrentNoteId(noteIdFromUrl);
+            setNoteId(noteIdFromUrl);
+            setNoteModalOpen(true);
+        } else {
+            setNoteModalOpen(false);
+            setCurrentNoteId(null);
+            setNoteId(null);
+        }
+    }, [searchParams])
 
     const containerRef = useRef(null);
 
@@ -33,9 +49,12 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
             // click handler to open NoteModal
             const handleClick = (e) => {
                 e.preventDefault();
-                // console.log("Setting noteTitle to:", xmlId);
-                setNoteModalOpen(true);
-                setNoteId(xmlId || "No Title");
+                // Update URL parameters instead of directly setting state
+                setSearchParams(prev => {
+                    const newParams = new URLSearchParams(prev);
+                    newParams.set('note', xmlId || "No Title");
+                    return newParams;
+                });
             }
 
             return <Fragment><a 
@@ -63,6 +82,15 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
     const abbrToggle = () => {
         setAbbr(!abbr);
+    }
+
+    const handleModalClose = () => {
+        // Clear the note parameter from URL when modal closes
+        setSearchParams(prev => {
+            const newParams = new URLSearchParams(prev);
+            newParams.delete('note');
+            return newParams;
+        });
     }
 
     useEffect(() => {
@@ -168,7 +196,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
             <NoteModal
                 noteModalOpen={noteModalOpen}
-                setNoteModalOpen={setNoteModalOpen}
+                setNoteModalOpen={handleModalClose}
                 noteId={noteId}
             />
         </Fragment>

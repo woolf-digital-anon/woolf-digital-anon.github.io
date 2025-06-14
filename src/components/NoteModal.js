@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import * as AppUtil from '../util/app-util';
 import { getEventDate, getEventDateStructured, formatDate } from "../util/date-helper"
@@ -15,6 +15,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
   const [xmlContent, setXmlContent] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
+  const modalBodyRef = useRef(null);
 
   // summons modal and data
   useEffect(() => {
@@ -41,13 +42,35 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     }
   }, [noteModalOpen, noteId]);
 
+  // Handle click events on internal links after content is rendered
+  useEffect(() => {
+    if (modalBodyRef.current && xmlContent) {
+      const links = modalBodyRef.current.querySelectorAll('a[data-internal-link]');
+      
+      const handleLinkClick = (e) => {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('data-target-id');
+        if (targetId) {
+          handleInternalLinkClick(targetId);
+        }
+      };
+
+      links.forEach(link => {
+        link.addEventListener('click', handleLinkClick);
+      });
+
+      // Cleanup event listeners
+      return () => {
+        links.forEach(link => {
+          link.removeEventListener('click', handleLinkClick);
+        });
+      };
+    }
+  }, [xmlContent]);
+
   // Handle internal link clicks using URL parameters
   const handleInternalLinkClick = (targetId) => {
     // Update the URL parameter while keeping the modal open
-    // This assumes your parent component watches for URL parameter changes
-    // and updates the noteId prop accordingly
-    
-    // Option 1: Update search params (e.g., ?note=targetId)
     setSearchParams(prev => {
       const newParams = new URLSearchParams(prev);
       newParams.set('note', targetId);
@@ -57,7 +80,6 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
 
   // helper function using CSS selectors and XPath-like targeting
   const findElementById = (xmlDoc, id) => {
-
     const selectorTargets = [
       `bibl[xml\\:id="${id}"]`,
       `person[xml\\:id="${id}"]`,
@@ -81,56 +103,60 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
     return null;
   };
 
-  // // More sophisticated note text extraction with markup preservation options
-  // const getNoteTextWithMarkup = (element, preserveMarkup = true) => {
-  //   const noteElement = element.querySelector('note');
-  //   if (!noteElement) return null;
+  // Enhanced function to convert XML to HTML with proper internal links
+  const getNoteTextWithMarkup = (element, preserveMarkup = true) => {
+    const noteElement = element.querySelector('note');
+    if (!noteElement) return null;
     
-  //   if (preserveMarkup) {
-  //     // Clone the note element to avoid modifying the original
-  //     const clonedNote = noteElement.cloneNode(true);
+    if (preserveMarkup) {
+      // Clone the note element to avoid modifying the original
+      const clonedNote = noteElement.cloneNode(true);
       
-  //     // Find all <rs> elements and convert them to <a> elements
-  //     const rsElements = clonedNote.querySelectorAll('rs');
-  //     rsElements.forEach(rs => {
-  //       // Create a new <a> element
-  //       const anchor = document.createElement('a');
+      // Find all <rs> elements and convert them to <a> elements
+      const rsElements = clonedNote.querySelectorAll('rs');
+      rsElements.forEach(rs => {
+        // Create a new <a> element
+        const anchor = document.createElement('a');
         
-  //       // Get the xml:id attribute (try different ways it might be stored)
-  //       const xmlId = rs.getAttribute('xml:id') || 
-  //                   rs.getAttribute('xmlId') || 
-  //                   rs.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id');
+        // Get the xml:id attribute (try different ways it might be stored)
+        const xmlId = rs.getAttribute('xml:id') || 
+                    rs.getAttribute('xmlId') || 
+                    rs.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'id');
         
-  //       // Set href attribute
-  //       if (xmlId) {
-  //         anchor.href = '#' + xmlId;
-  //       } else {
-  //         anchor.href = '#';
-  //       }
+        // Set attributes for internal link handling
+        if (xmlId) {
+          anchor.href = '#';
+          anchor.setAttribute('data-internal-link', 'true');
+          anchor.setAttribute('data-target-id', xmlId);
+        } else {
+          anchor.href = '#';
+        }
         
-  //       // Add styling
-  //       anchor.style.cursor = 'pointer';
+        // Add styling
+        anchor.style.cursor = 'pointer';
+        anchor.style.color = '#007bff';
+        anchor.style.textDecoration = 'underline';
         
-  //       // Copy the text content
-  //       anchor.innerHTML = rs.innerHTML;
+        // Copy the text content
+        anchor.innerHTML = rs.innerHTML;
         
-  //       // Replace the <rs> element with the <a> element
-  //       rs.parentNode.replaceChild(anchor, rs);
-  //     });
+        // Replace the <rs> element with the <a> element
+        rs.parentNode.replaceChild(anchor, rs);
+      });
       
-  //     // Convert other common XML tags to HTML equivalents
-  //     const hiElements = clonedNote.querySelectorAll('hi');
-  //     hiElements.forEach(hi => {
-  //       const em = document.createElement('em');
-  //       em.innerHTML = hi.innerHTML;
-  //       hi.parentNode.replaceChild(em, hi);
-  //     });
+      // Convert other common XML tags to HTML equivalents
+      const hiElements = clonedNote.querySelectorAll('hi');
+      hiElements.forEach(hi => {
+        const em = document.createElement('em');
+        em.innerHTML = hi.innerHTML;
+        hi.parentNode.replaceChild(em, hi);
+      });
       
-  //     return clonedNote.innerHTML.trim();
-  //   } else {
-  //     return noteElement.textContent.trim().replace(/\s+/g, ' ');
-  //   }
-  // };
+      return clonedNote.innerHTML.trim();
+    } else {
+      return noteElement.textContent.trim().replace(/\s+/g, ' ');
+    }
+  };
 
   const formatNoteContent = (element) => {
     if (!element) return { title: "Unknown", content: "Element not found" };
@@ -149,9 +175,6 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         .join(' ');
     };
 
-    
-
-
     // logic to summon and format data
     switch (tagName) {
       case 'bibl':
@@ -159,8 +182,7 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const author = getChildText('author')
         const date = getEventDate(element, 'composition');
 
-        const note_bibl = getNoteTextWithMarkup(element, handleInternalLinkClick);
-
+        const note_bibl = getNoteTextWithMarkup(element);
 
         let biblContent = '';
         if (author) biblContent += `<p><strong>Author:</strong> ${author}</p>`;
@@ -175,7 +197,6 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const death = getEventDate(element, 'death');
 
         const note_person = getNoteTextWithMarkup(element);
-
 
         let personContent = '';
         if (birth) personContent += `<p><strong>Birth:</strong> ${formatDate(birth)}</p>`;
@@ -223,7 +244,10 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         <Modal.Header closeButton>
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
-        <Modal.Body dangerouslySetInnerHTML={{ __html: xmlContent }} />
+        <Modal.Body 
+          ref={modalBodyRef}
+          dangerouslySetInnerHTML={{ __html: xmlContent }} 
+        />
       </Modal>
     </div>
   );
