@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import * as AppUtil from '../util/app-util';
 import { getEventDate, getEventDateStructured, formatDate } from "../util/date-helper"
 import { getNoteTextWithMarkup, findAnnotationById, handleAnnotationLinkClick } from '../util/note-link-helper';
-//import { WorksCited } from '../util/bib-helper'
+import { getWorksCited } from '../util/bib-helper'
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -307,11 +307,13 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const date = getEventDate(element, 'composition');
 
         const note_bibl = getNoteTextWithMarkup(element);
+        const worksCited_bibl = getWorksCited(element);
 
         let biblContent = '';
         if (author) biblContent += `<p><strong>Author:</strong> ${author}</p>`;
         if (date) biblContent += `<p><strong>Composition date:</strong> ${formatDate(date)}</p>`;
         if (note_bibl) biblContent += `<p>${note_bibl}</p>`;
+        if (worksCited_bibl) biblContent += worksCited_bibl;
 
         return { title, content: biblContent || getDirectText() };
 
@@ -321,11 +323,15 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const death = getEventDate(element, 'death');
 
         const note_person = getNoteTextWithMarkup(element);
+        const worksCited_person = getWorksCited(element);
+
 
         let personContent = '';
         if (birth) personContent += `<p><strong>Birth:</strong> ${formatDate(birth)}</p>`;
         if (death) personContent += `<p><strong>Death:</strong> ${formatDate(death)}</p>`;
         if (note_person) personContent += `<p>${note_person}</p>`;
+        if (worksCited_person) personContent += worksCited_person;
+
 
         return {
           title: personName,
@@ -338,12 +344,14 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         const region = getChildText('region');
         const settlement = getChildText('settlement');
         const note_place = getNoteTextWithMarkup(element);
+        const worksCited_place = getWorksCited(element);
 
         let placeContent = '';
         if (settlement) placeContent += `<p><strong>Settlement:</strong> ${settlement}</p>`;
         if (region) placeContent += `<p><strong>Region:</strong> ${region}</p>`;
         if (country) placeContent += `<p><strong>Country:</strong> ${country}</p>`;
         if (note_place) placeContent += `<p>${note_place}</p>`;
+        if (worksCited_place) placeContent += worksCited_place;
 
         return {
           title: placeName,
@@ -353,14 +361,18 @@ export function NoteModal({ noteModalOpen, setNoteModalOpen, noteId }) {
         case 'object':
         const objectName = getChildText('objectName') || getChildText('name') || 'Object';
         const note_object = getNoteTextWithMarkup(element);
+        const worksCited_object = getWorksCited(element);
         
         let objectContent = '';
 
         if (note_object) objectContent += `<p>${note_object}</p>`;
+        if (worksCited_object) objectContent += worksCited_object;
+
         return {
           title: objectName,
           content: objectContent || getDirectText() || element.textContent.trim()
         };
+        
       default:
         return {
           title: tagName.charAt(0).toUpperCase() + tagName.slice(1),

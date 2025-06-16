@@ -49,3 +49,7 @@ choice>sic::before{
 choice:hover>sic {
   visibility: visible;
 }
+
+.citation {
+  color: blue;
+}
