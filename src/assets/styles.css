@@ -52,5 +52,9 @@ choice:hover>sic {
 
 span.worksCited {
   text-indent: 3em hanging each-line;
-  line-height: 1.0;
+  line-height: 1.5;
+}
+
+span.worksCited>p {
+  margin-bottom: 0.5em;
 }
