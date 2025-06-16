@@ -50,6 +50,7 @@ choice:hover>sic {
   visibility: visible;
 }
 
-.citation {
-  color: blue;
+span.worksCited {
+  text-indent: 3em hanging each-line;
+  line-height: 1.0;
 }
