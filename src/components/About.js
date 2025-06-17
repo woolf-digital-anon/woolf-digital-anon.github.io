@@ -16,8 +16,8 @@ export default function About() {
     }, []);
 
     return (
-        <Fragment>
-            <CustomNavbar helperFunctions={["collectionLink"]} />
+        <Fragment style={{  }}>
+            {/* <CustomNavbar helperFunctions={["collectionLink"]} /> */}
 
             <Container className="px-4 pt-4 page-container">
                 <article className="mb-5">

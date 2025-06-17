@@ -28,11 +28,10 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                    <Route index element={<About />} />
-                    <Route path="/about/citations" element={<AboutCitations />} />
-                    <Route path="/about/credits" element={<AboutCredits />} />
-                    <Route path="/about/documents" element={<AboutDocuments />} />
-                    <Route path="/about/project" element={<AboutProject />} />
+                <Route path="/about/citations" element={<AboutCitations />} />
+                <Route path="/about/credits" element={<AboutCredits />} />
+                <Route path="/about/documents" element={<AboutDocuments />} />
+                <Route path="/about/project" element={<AboutProject />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/collection/:collectionId" element={<Collection />} />
                 <Route path="/help" element={<Help />} />
@@ -50,7 +49,7 @@ function App() {
                             : '' }
                         </Col>
                         <Col className="text-end m-3" style={{fontSize: '10px'}}>
-                            <div class ="text-end">© copyright statement goes here</div>
+                            <div className="text-end">© copyright statement goes here</div>
                             {meta.creator ? <div className="text-end">Edited by {meta.creator}</div> : '' }
                             <div className="text-end">Powered by <a className="text-muted text-decoration-none" href="https://github.com/eXtant-CMG/Necturus-Viewer-Compact" target="_blank">Necturus Compact</a></div>
                         </Col>
@@ -58,7 +57,6 @@ function App() {
                 </Container>
             </Nav>
         </Fragment>
-
     );
 }
 
