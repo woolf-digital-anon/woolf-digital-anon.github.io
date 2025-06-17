@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Col, Form, ListGroup, Modal, Row} from 'react-bootstrap';
 import Fuse from "fuse.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro'
 
 function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -11,14 +13,14 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
     useEffect(() => {
         if (!collectionId) return;
 
-        fetch(`${process.env.PUBLIC_URL}/files/${collectionId}/index.json`)
+        fetch(`${process.env.PUBLIC_URL}/files/consolidated_index.json`)
             .then(res => res.json())
             .then(data => {
                 const {rawDocs, index} = data;
                 const fuseIndex = Fuse.parseIndex(index);
 
                 indexRef.current = new Fuse(rawDocs, {
-                    keys: ['text'],
+                    keys: ['text', 'collection', 'page_name'],
                     includeScore: true,
                     includeMatches: true,
                     ignoreDiacritics: true,
@@ -32,18 +34,43 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
     const handleSearch = async () => {
         if (!indexRef.current || !searchTerm) return;
 
-        const results = indexRef.current.search(searchTerm);
+        let results = indexRef.current.search(searchTerm);
+
+        // if (collectionId) {
+        //     results = results.filter(result => 
+        //         result.item.collection === collectionId
+        //     );
+        // }
 
         setResults(results);
 
     };
 
     const handleItemClick = (item) => {
-        setSearchedItemLocation({
-            'facs': item.item.facs,
-            'page': item.item.page
-        })
-        switchShow();
+        const { collection, page_name, page, facs } = item.item;
+        
+        // If the result is from a different collection, we need to navigate there
+        if (collection !== collectionId) {
+            // For cross-collection navigation, you'll need to handle this in the parent
+            // Pass the full navigation info including collection change
+            setSearchedItemLocation({
+                'facs': facs,
+                'page': page,
+                'page_name': page_name,
+                'collection': collection,
+                'crossCollection': true // Flag to indicate collection change needed
+            });
+        } else {
+            // Same collection, just navigate to the page
+            setSearchedItemLocation({
+                'facs': facs,
+                'page': page,
+                'page_name': page_name,
+                'collection': collection
+            });
+    }
+    
+    switchShow(); // Close the modal
     }
 
     const highlightFromFuse = (item) => {
@@ -81,7 +108,9 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
     return (
         <Modal show={show} onHide={switchShow}>
             <Modal.Header closeButton>
-                <Modal.Title>Search Collection</Modal.Title>
+                <Modal.Title>
+                    Search the Drafts
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -91,7 +120,7 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
                                 ref={inputRef}
                                 className="search-result-item"
                                 type="text"
-                                placeholder="Search..."
+                                placeholder="Search drafts..."
                                 value={searchTerm}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
@@ -104,7 +133,7 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
                         </Col>
                         <Col sm={3}>
                             <Button variant="primary" onClick={handleSearch} style={{ width: '100%' }}>
-                                Search
+                                <FontAwesomeIcon icon={solid("magnifying-glass")} /> Search
                             </Button>
                         </Col>
                     </Form.Group>
@@ -112,7 +141,12 @@ function SearchModal({ show, switchShow, collectionId, setSearchedItemLocation }
                 <ListGroup className="mt-3" style={{maxHeight: '60vh', overflowY: 'auto'}}>
                     {results ? (results.length > 0 ? results.map((item, index) => (
                         <ListGroup.Item key={index} className="clickable-item" onClick={() => handleItemClick(item)}>
-                            <div style={{fontWeight: 'bold', marginBottom: '5px'}}>{item.item['page_name']}</div>
+                            <div style={{fontWeight: 'bold', marginBottom: '5px'}}>
+                                {item.item.collection !== collectionId && (
+                                    <span className="text-muted">{item.item.collection} / </span>
+                                )}
+                                {item.item['page_name']}
+                            </div>
                             <div
                                 className="search-result-item"
                                 dangerouslySetInnerHTML={{__html: highlightFromFuse(item)}}

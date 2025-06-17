@@ -11,7 +11,7 @@ import {NoteModal} from "./NoteModal";
 import { useSearchParams } from 'react-router-dom';
 
 
-export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones}) {
+export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones, searchedItemLocation, setSearchedItemLocation}) {
     const [xmlText, setXmlText] = useState("");
     const [showRender, setShowRender] = useState(true);
     const [abbr, setAbbr] = useState(true);
@@ -37,6 +37,25 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
     }, [searchParams])
 
     const containerRef = useRef(null);
+
+    // useEffect(() => {
+    //     if (searchedItemLocation && xmlText) {
+    //         const { facs, collection, page_name } = searchedItemLocation;
+            
+    //         // If this component is displaying the correct page for the search result
+    //         // Check if the current page matches the search result's page
+    //         const currentPageName = currentPage ? currentPage.split('/').pop().replace('.xml', '') : '';
+            
+    //         if (page_name === currentPageName) {
+    //             // Navigate to the specific element using facs
+    //             if (facs) {
+    //                 setSelection(facs.startsWith('#') ? facs.slice(1) : facs);
+    //             }
+    //             // Clear the search location after handling
+    //             setSearchedItemLocation(null);
+    //         }
+    //     }
+    // }, [searchedItemLocation, xmlText, currentPage, setSelection, setSearchedItemLocation]);
 
     const customRenderers = {
         "abbr": (node, children, attributes) => <span {...attributes}>{children}</span>,

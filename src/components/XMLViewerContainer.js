@@ -1,15 +1,17 @@
-import {Fragment, useEffect, useState} from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as AppUtil from "../util/app-util";
 import Container from "react-bootstrap/Container";
 import AnnotationContainer from "./AnnotationContainer";
-import {Responsive, WidthProvider} from "react-grid-layout";
-import {CustomNavbar} from "./CustomNavbar";
-import {DynamicXMLViewer} from "./DynamicXMLViewer";
-import {CustomPagination} from "./CustomPagination";
-import {Breadcrumb, Button, Col} from "react-bootstrap";
+import { Responsive, WidthProvider } from "react-grid-layout";
+import { CustomNavbar } from "./CustomNavbar";
+import { DynamicXMLViewer } from "./DynamicXMLViewer";
+import { CustomPagination } from "./CustomPagination";
+import { Breadcrumb, Button, Col } from "react-bootstrap";
 import SearchModal from "./SearchModal";
-import {CollectionSelectModal} from "./CollectionSelectModal";
+import { CollectionSelectModal } from "./CollectionSelectModal";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro'
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -30,6 +32,48 @@ export function XMLViewerContainer() {
     const [annoZones, setAnnoZones] = useState();
 
     const [searchedItemLocation, setSearchedItemLocation] = useState();
+
+    useEffect(() => {
+        if (searchedItemLocation) {
+            const { collection, page_name, page, facs } = searchedItemLocation;
+
+            // If the search result is from a different collection, switch to it
+            if (collection && collection !== extractCollectionPath()) {
+                const collectionIndex = filesInfo.findIndex(coll => coll.path === collection);
+                if (collectionIndex !== -1) {
+                    setCurrentCollection(collectionIndex + 1);
+                }
+            }
+
+            // Navigate to the specific page
+            if (page_name && filesInfo.length > 0) {
+                const targetCollection = collection ?
+                    filesInfo.find(coll => coll.path === collection) :
+                    filesInfo[currentCollection - 1];
+
+                if (targetCollection) {
+                    const pageIndex = targetCollection.pages.findIndex(pageName => pageName === page_name);
+                    if (pageIndex !== -1) {
+                        setCurrentPage(pageIndex + 1);
+                    }
+                }
+            } else if (page) {
+                setCurrentPage(page);
+            }
+
+            // Handle facs highlighting
+            if (facs) {
+                setTimeout(() => {
+                    const facsId = facs.startsWith('#') ? facs.slice(1) : facs;
+                    setSelectedZone(facsId);
+                }, 500);
+            }
+
+            // Clear the searchedItemLocation after processing
+            setSearchedItemLocation(null);
+        }
+    }, [searchedItemLocation, filesInfo, currentCollection])
+
 
     function resetLayout(newLayout) {
         if (newLayout === 'sbs') {
@@ -109,16 +153,16 @@ export function XMLViewerContainer() {
         loadFilesInfo();
     }, []);
 
-    useEffect(() => {
-        if (searchedItemLocation) {
-            setCurrentPage(searchedItemLocation["page"]);
+    // useEffect(() => {
+    //     if (searchedItemLocation) {
+    //         setCurrentPage(searchedItemLocation["page"]);
 
-            //TODO: This is not ideal, I should find a better way to do this
-            setTimeout(() => {
-                setSelectedZone(searchedItemLocation['facs'].slice(1));
-            }, 200);
-        }
-    }, [searchedItemLocation, currentPage]);
+    //         //TODO: This is not ideal, I should find a better way to do this
+    //         setTimeout(() => {
+    //             setSelectedZone(searchedItemLocation['facs'].slice(1));
+    //         }, 200);
+    //     }
+    // }, [searchedItemLocation, currentPage]);
 
     useEffect(() => {
         if (collectionId) {
@@ -155,24 +199,24 @@ export function XMLViewerContainer() {
 
     return (
         <Fragment>
-            <CustomNavbar helperFunctions={{resetLayout}} />
+            <CustomNavbar helperFunctions={{ resetLayout }} />
             <Container className="page-container">
                 <CollectionSelectModal show={collectionSelectShow} switchShow={collectionSelectModal} setCollection={setCurrentCollection} setPage={setCurrentPage} filesInfo={filesInfo} />
-                <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionPath()} setSearchedItemLocation={setSearchedItemLocation}/>
+                <SearchModal show={searchShow} switchShow={searchModal} collectionId={extractCollectionPath()} setSearchedItemLocation={setSearchedItemLocation} />
 
 
                 <div className="d-flex align-items-center my-breadcrumb-container border bg-light h-100 p-2">
                     <Col className={"col-10"}>
                         <Breadcrumb className="pt-3 px-2">
                             <Breadcrumb.Item active onClick={collectionSelectModal}
-                                             style={{cursor: 'pointer'}}>{extractCollectionName()}</Breadcrumb.Item>
+                                style={{ cursor: 'pointer' }}>{extractCollectionName()}</Breadcrumb.Item>
                             <Breadcrumb.Item active>{extractPageName()}</Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
                     <Col className={"col-2 search-column"}>
                         <Button variant="link" onClick={searchModal}
-                                style={{textDecoration: 'none', color: '#212529BF'}}>
-                            Search Collection
+                            style={{ textDecoration: 'none', color: '#212529BF' }}>
+                            <FontAwesomeIcon icon={solid("magnifying-glass")} /> Search
                         </Button>
                     </Col>
                 </div>
@@ -180,8 +224,8 @@ export function XMLViewerContainer() {
                 <ResponsiveGridLayout
                     className="layout"
                     layouts={layout}
-                    breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                    cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
+                    breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+                    cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                     rowHeight={130}
                     draggableHandle=".drag-handle"
                     resizeHandles={['se', 'ne']}
@@ -191,9 +235,14 @@ export function XMLViewerContainer() {
                 >
                     <div key="1">
                         <div className="border bg-light h-100 p-3">
-                            <DynamicXMLViewer onSelection={selectedZone} setSelection={setSelectedZone}
-                                              currentPage={extractCurrentPage('xml', 'xml')}
-                                              setAnnoZones={setAnnoZones}/>
+                            <DynamicXMLViewer
+                                onSelection={selectedZone}
+                                setSelection={setSelectedZone}
+                                currentPage={extractCurrentPage('xml', 'xml')}
+                                setAnnoZones={setAnnoZones}
+                                searchedItemLocation={searchedItemLocation}
+                                setSearchedItemLocation={setSearchedItemLocation}
+                            />
                         </div>
                     </div>
 
@@ -212,7 +261,7 @@ export function XMLViewerContainer() {
 
                 </ResponsiveGridLayout>
                 <CustomPagination currentPage={currentPage} setCurrentPage={setCurrentPage}
-                                  totalPages={filesInfo ? filesInfo[currentCollection - 1]?.pages.length : 0}/>
+                    totalPages={filesInfo ? filesInfo[currentCollection - 1]?.pages.length : 0} />
             </Container>
 
         </Fragment>
