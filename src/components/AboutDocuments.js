@@ -3,13 +3,12 @@ import { Container } from "react-bootstrap";
 import { CustomNavbar } from "./CustomNavbar";
 import ReactMarkdown from "react-markdown";
 import { FaGithub } from "react-icons/fa";
-import { Outlet } from "react-router-dom";
 
 export default function About() {
     const [markdown, setMarkdown] = useState("");
 
     useEffect(() => {
-        fetch(`${process.env.PUBLIC_URL}/files/about.md`)
+        fetch(`${process.env.PUBLIC_URL}/files/about_documents.md`)
             .then((res) => res.text())
             .then((text) => setMarkdown(text))
             .catch((err) => console.error("Failed to load about.md", err));
@@ -21,7 +20,7 @@ export default function About() {
 
             <Container className="px-4 pt-4 page-container">
                 <article className="mb-5">
-                    <Outlet />
+                    <ReactMarkdown>{markdown}</ReactMarkdown>
                 </article>
 
                 <footer>
