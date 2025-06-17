@@ -3,12 +3,13 @@ import XMLViewer from 'react-xml-viewer'
 import {Button} from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {solid} from "@fortawesome/fontawesome-svg-core/import.macro";
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro'
 import { scrollIntoView } from "seamless-scroll-polyfill";
 import {saveAs} from 'file-saver';
 import {XMLRenderer} from "./XMLRenderer";
 import {NoteModal} from "./NoteModal";
 import { useSearchParams } from 'react-router-dom';
+
 
 
 export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones, searchedItemLocation, setSearchedItemLocation}) {
@@ -175,7 +176,7 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
                     <DropdownButton variant="light" className="ms-auto" title="View Options" align="end" >
                         <div className="px-3 py-2 d-flex align-items-center justify-content-between">
-                            <span className="me-3">XML</span>
+                            <span className="me-3">XML <FontAwesomeIcon icon={solid("code")} /></span>
                             <div className="switcher" onChange={onToolSelect}>
                                 <input type="radio" name="view-toggle" value="raw" id="raw" className="switcherxml__input switcherxml__input--raw" />
                                 <label htmlFor="raw" className="switcher__label">Raw</label>
@@ -189,13 +190,13 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
                         {showRender && (
                             <div className="px-3 py-2 d-flex align-items-center justify-content-between">
-                                <span className="me-3">Abbreviations</span>
+                                <span className="me-3">Polygons <FontAwesomeIcon icon={solid("expand")} /></span>
                                 <div className="switcher" onChange={abbrToggle}>
                                     <input type="radio" name="view-toggle-2" value="expand" id="expand" className="switcherxml__input switcherxml__input--raw" />
-                                    <label htmlFor="expand" className="switcher__label">Expand</label>
+                                    <label htmlFor="expand" className="switcher__label">On</label>
 
                                     <input type="radio" name="view-toggle-2" value="abbr" id="abbr" className="switcherxml__input switcherxml__input--render" defaultChecked />
-                                    <label htmlFor="abbr" className="switcher__label">Abbr.</label>
+                                    <label htmlFor="abbr" className="switcher__label">Off</label>
 
                                     <span className="switcher__toggle"></span>
                                 </div>
