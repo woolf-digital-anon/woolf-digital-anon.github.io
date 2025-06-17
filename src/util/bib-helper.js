@@ -7,6 +7,7 @@ export const getWorksCited = (element) => {
   if (biblStructs.length === 0) return '';
 
   const citations = [];
+  let previousAuthor = '';
   
   biblStructs.forEach(bibl => {
     const type = bibl.getAttribute('type') || 'book'; // Default to book if no type specified
@@ -35,6 +36,12 @@ export const getWorksCited = (element) => {
         citation = formatBook(author, title, bibl, date); // Fallback to book format
     }
     
+    // Handle repeated author substitution
+    if (author === previousAuthor && author !== 'Anonymous') {
+      citation = citation.replace(author + '.', '–––.');
+    }
+    previousAuthor = author;
+    
     citations.push(citation);
   });
 
@@ -49,20 +56,47 @@ export const getWorksCited = (element) => {
 
 // Helper function to extract author information
 function extractAuthor(bibl) {
-  const authorElement = bibl.querySelector('author');
-  if (!authorElement) return 'Anonymous';
+  const authorElements = bibl.querySelectorAll('author');
+  if (authorElements.length === 0) return 'Anonymous';
   
-  const persName = authorElement.querySelector('persName');
-  if (persName) {
-    const forename = persName.querySelector('forename');
-    const surname = persName.querySelector('surname');
-    if (forename && surname) {
-      return `${surname.textContent.trim()}, ${forename.textContent.trim()}`;
+  const authors = [];
+  
+  authorElements.forEach((authorElement, index) => {
+    const persName = authorElement.querySelector('persName');
+    let authorName = '';
+    
+    if (persName) {
+      const forename = persName.querySelector('forename');
+      const surname = persName.querySelector('surname');
+      if (forename && surname) {
+        // First author: Last, First format
+        // Subsequent authors: First Last format
+        if (index === 0) {
+          authorName = `${surname.textContent.trim()}, ${forename.textContent.trim()}`;
+        } else {
+          authorName = `${forename.textContent.trim()} ${surname.textContent.trim()}`;
+        }
+      } else {
+        authorName = persName.textContent.trim();
+      }
     } else {
-      return persName.textContent.trim();
+      authorName = authorElement.textContent.trim();
     }
+    
+    authors.push(authorName);
+  });
+  
+  // Format multiple authors according to MLA style
+  if (authors.length === 1) {
+    return authors[0];
+  } else if (authors.length === 2) {
+    return `${authors[0]} and ${authors[1]}`;
+  } else if (authors.length === 3) {
+    return `${authors[0]}, ${authors[1]}, and ${authors[2]}`;
+  } else {
+    // For 4+ authors, use "et al." after the first author
+    return `${authors[0]} et al.`;
   }
-  return authorElement.textContent.trim();
 }
 
 // Helper function to extract title
@@ -104,6 +138,16 @@ function extractSeries(bibl) {
       }
       return seriesInfo;
     }
+  }
+  return '';
+}
+
+// Helper function to extract volume information
+function extractVolume(bibl) {
+  const volumeElement = bibl.querySelector('biblScope[unit="volume"]');
+  if (volumeElement) {
+    const volumeNumber = volumeElement.textContent.trim();
+    return volumeNumber ? `vol. ${volumeNumber}` : '';
   }
   return '';
 }
@@ -187,6 +231,7 @@ function formatBookSection(author, title, bibl, date) {
   const containerTitle = extractContainerTitle(bibl);
   const editor = extractEditor(bibl);
   const publisher = extractPublisher(bibl);
+  const volume = extractVolume(bibl);
   const pages = extractPages(bibl);
   const url = extractURL(bibl);
   
@@ -194,12 +239,16 @@ function formatBookSection(author, title, bibl, date) {
   
   if (containerTitle) {
     citation += `<em>${containerTitle}</em>`;
-    
-    if (editor) {
-      citation += `, edited by ${editor}`;
-    }
-    
-    citation += ', ';
+  
+      if (volume) {
+    citation += `, ${volume}`;
+  }
+  
+  if (editor) {
+    citation += `, edited by ${editor}`;
+  }
+  
+  citation += ', ';
   }
   
   if (publisher) {
