@@ -38,6 +38,8 @@ export function CustomNavbar({ helperFunctions = {} }) {
                             </NavDropdown>
                         )}
                         <Nav.Link as={Link} to="/about">About</Nav.Link>
+                        <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
+                        <Nav.Link as={Link} to="/help">Help</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
