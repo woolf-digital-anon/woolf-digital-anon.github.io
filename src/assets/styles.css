@@ -1,12 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* hero image */
+/* .hero {
+  text-align: center;
+  background-image: url(./hero.png);
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  opacity: 0.3;
+} */
+
 add {
   vertical-align: super;
   font-size: smaller;
   color: green;
 }
-
-/* a {
-  color: slateblue
-} */
 
 /* choice elements */
 
