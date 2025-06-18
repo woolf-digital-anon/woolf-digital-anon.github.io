@@ -1,7 +1,7 @@
 {
   "name": "necturus-compact",
   "version": "0.1.0",
-  "homepage": ".",
+  "homepage": "https://joshuaaphillips.github.io/digital-anon-dev",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.5.2",
@@ -35,7 +35,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build --verbose",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,6 +60,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.1.1"
+    "gh-pages": "^6.3.0"
   }
 }
