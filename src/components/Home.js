@@ -2,10 +2,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomNavbar } from "./CustomNavbar";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import ReactMarkdown from "react-markdown";
 
 function Home() {
     const [filesInfo, setFilesInfo] = useState([]);
     const navigate = useNavigate();
+    const [markdown, setMarkdown] = useState("");
 
     useEffect(() => {
         const loadFilesInfo = async () => {
@@ -20,6 +22,14 @@ function Home() {
         loadFilesInfo();
     }, []);
 
+    // Load the markdown content for the home page
+        useEffect(() => {
+        fetch(`${process.env.PUBLIC_URL}/files/home.md`)
+            .then((res) => res.text())
+            .then((text) => setMarkdown(text))
+            .catch((err) => console.error("Failed to load about.md", err));
+    }, []);
+
     const handleCardClick = (collectionIndex) => {
         navigate(`/collection/${collectionIndex}`);
     };
@@ -30,16 +40,7 @@ function Home() {
 
             <Container fluid className="px-4 pt-4 page-container">
                 <Container style={{ textAlign: 'center', padding: '2rem'}}>
-                    <h1>Welcome to The Digital 'Anon'</h1>
-                        <div>
-                            <hr />
-                            <p><em>The Digital 'Anon'</em> is a digital, genetic edition of Virginia Woolf's final, unfinished history of English literature.</p>
-                            <p>In the final years of her life, Woolf's thoughts turned to the past and she began work on three historical projects. One was the novel, <em>Between the Acts</em> (1941), another the unfinished memoir 'A Sketch of the Past' (1976, second ed. 1989). The most fragmentary, though, was the literary history she called, variously, 'Reading at Random' or 'Turning the Page', but which has become better known today by the dual title of 'Anon' and 'The Reader'.</p>
-                            <p>Woolf wrote some 273 pages of material towards this project, scattered across 43 manuscript and typescript drafts which write and rewrite, work and rework the primal scenes of English literary language.</p>
-                            <p>While some material from Woolf's literary history has been published, no edition has made this whole corpus available: <em>The Digital 'Anon'</em> is the first resource to do so.</p>
-                            <hr />
-                        </div>
-                    <h2 className="mb-4">Browse the Drafts</h2>
+                    <ReactMarkdown>{markdown}</ReactMarkdown>
                 </Container>
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {filesInfo.map((collection, index) => {
