@@ -11,7 +11,8 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import Button from 'react-bootstrap/Button'
 import '@recogito/annotorious/dist/annotorious.min.css';
 
-function ImageComponent({onSelection, setSelection, transformComponentRef, currentPage, annoZones}) {
+function ImageComponent({onSelection, setSelection, transformComponentRef, currentPage, annoZones, showPolygons}) {
+    console.log('show polygons:', showPolygons)
     // Ref for finding selected element
     const containerRef = useRef();
     const instance = useTransformContext();
@@ -29,6 +30,7 @@ function ImageComponent({onSelection, setSelection, transformComponentRef, curre
     const handleAnnoClick= (e) => {
         if (e.target.tagName !== 'polygon') setSelection('')
     }
+
 
     function createAnnotationUrl() {
         try {
@@ -92,7 +94,11 @@ function ImageComponent({onSelection, setSelection, transformComponentRef, curre
     }, [currentPage]);
 
     return (
-        <div className="annotation" ref={containerRef} onClick={handleAnnoClick}>
+        <div 
+            className={`annotation ${!showPolygons ? 'hide-polygons' : ''}`}  
+            ref={containerRef} 
+            onClick={handleAnnoClick}
+        >
             <TransformComponent wrapperStyle={{ maxWidth: "100%", height:"100%", overflow: "hidden"}}>
 
                 <img className=""
@@ -104,7 +110,7 @@ function ImageComponent({onSelection, setSelection, transformComponentRef, curre
     );
 }
 
-function AnnotationContainer({onSelection, setSelection, currentPage, annoZones}) {
+function AnnotationContainer({onSelection, setSelection, currentPage, annoZones, showPolygons}) {
     // Ref for zooming to element
     const transformComponentRef = useRef();
 
@@ -128,7 +134,14 @@ function AnnotationContainer({onSelection, setSelection, currentPage, annoZones}
                             <Button variant="light" title={'drag and move'} className={'drag-handle'}><FontAwesomeIcon icon={solid("up-down-left-right")} /></Button>
 
                         </div>
-                        <ImageComponent onSelection={onSelection} setSelection={setSelection} transformComponentRef={transformComponentRef} currentPage={currentPage} annoZones={annoZones} />
+                        <ImageComponent 
+                            onSelection={onSelection} 
+                            setSelection={setSelection} 
+                            transformComponentRef={transformComponentRef} 
+                            currentPage={currentPage} 
+                            annoZones={annoZones} 
+                            showPolygons={showPolygons} 
+                        />
 
                     </React.Fragment>
                 )}

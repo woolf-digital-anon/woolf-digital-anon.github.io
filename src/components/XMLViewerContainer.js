@@ -33,6 +33,8 @@ export function XMLViewerContainer() {
 
     const [searchedItemLocation, setSearchedItemLocation] = useState();
 
+    const [showPolygons, setShowPolygons] = useState(true);
+
     useEffect(() => {
         if (searchedItemLocation) {
             const { collection, page_name, page, facs } = searchedItemLocation;
@@ -242,6 +244,8 @@ export function XMLViewerContainer() {
                                 setAnnoZones={setAnnoZones}
                                 searchedItemLocation={searchedItemLocation}
                                 setSearchedItemLocation={setSearchedItemLocation}
+                                showPolygons={showPolygons}
+                                setShowPolygons={setShowPolygons}
                             />
                         </div>
                     </div>
@@ -254,6 +258,7 @@ export function XMLViewerContainer() {
                                     setSelection={setSelectedZone}
                                     currentPage={extractCurrentPage('img', 'jpg')}
                                     annoZones={annoZones}
+                                    showPolygons={showPolygons}
                                 />
                             </div>
                         </div>

@@ -12,10 +12,11 @@ import { useSearchParams } from 'react-router-dom';
 
 
 
-export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones, searchedItemLocation, setSearchedItemLocation}) {
+export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnnoZones, searchedItemLocation, setSearchedItemLocation, showPolygons, setShowPolygons}) {
     const [xmlText, setXmlText] = useState("");
     const [showRender, setShowRender] = useState(true);
     const [abbr, setAbbr] = useState(true);
+    // const [showPolygons, setShowPolygons] = useState(true);
 
     // notes modal state
     const [searchParams, setSearchParams] = useSearchParams();
@@ -102,6 +103,11 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
 
     const abbrToggle = () => {
         setAbbr(!abbr);
+    }
+    const polygonToggle = () => {
+        console.log('Polygon toggle clicked, current state:', showPolygons);
+        setShowPolygons(!showPolygons);
+        console.log('New state will be:', !showPolygons);
     }
 
     const handleModalClose = () => {
@@ -191,12 +197,30 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
                         {showRender && (
                             <div className="px-3 py-2 d-flex align-items-center justify-content-between">
                                 <span className="me-3">Polygons <FontAwesomeIcon icon={solid("expand")} /></span>
-                                <div className="switcher" onChange={abbrToggle}>
-                                    <input type="radio" name="view-toggle-2" value="expand" id="expand" className="switcherxml__input switcherxml__input--raw" />
-                                    <label htmlFor="expand" className="switcher__label">On</label>
+                                <div className="switcher" onChange={polygonToggle}>
+                                    <input 
+                                        type="radio" 
+                                        name="polygon-toggle" 
+                                        value="on" 
+                                        id="polygons-on" 
+                                        className="switcherxml__input switcherxml__input--raw" 
+                                        checked={showPolygons}
+                                        onChange={() => setShowPolygons(true)}
+                                        readOnly
+                                    />
+                                    <label htmlFor="polygons-on" className="switcher__label">On</label>
 
-                                    <input type="radio" name="view-toggle-2" value="abbr" id="abbr" className="switcherxml__input switcherxml__input--render" defaultChecked />
-                                    <label htmlFor="abbr" className="switcher__label">Off</label>
+                                    <input 
+                                        type="radio" 
+                                        name="polygon-toggle" 
+                                        value="off" 
+                                        id="polygons-off" 
+                                        className="switcherxml__input switcherxml__input--render" 
+                                        checked={!showPolygons}
+                                        onChange={() => setShowPolygons(false)}
+                                        readOnly
+                                    />
+                                    <label htmlFor="polygons-off" className="switcher__label">Off</label>
 
                                     <span className="switcher__toggle"></span>
                                 </div>
@@ -206,7 +230,15 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
                 </div>
                 <div className={"xml-container"} >
                     {showRender ? (
-                        <SelectableXmlViewer ref={containerRef} xmlString={xmlText} onSelection={onSelection} setSelection={setSelection} onZonesExtracted={setAnnoZones} customRenderers={customRenderers} />
+                        <SelectableXmlViewer 
+                            ref={containerRef}
+                            xmlString={xmlText} 
+                            onSelection={onSelection} 
+                            setSelection={setSelection} 
+                            onZonesExtracted={setAnnoZones} 
+                            customRenderers={customRenderers}
+                            showPolygons={showPolygons} 
+                        />
                     ) : (
                         <XMLViewer collapsible="true" initialCollapsedDepth="3" xml={xmlText} />
                     )}

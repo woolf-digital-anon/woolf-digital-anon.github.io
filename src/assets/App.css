@@ -211,6 +211,15 @@
   stroke-width: 10px;
 }
 
+.annotation.hide-polygons .a9s-annotation,
+.annotation.hide-polygons .a9s-annotation *,
+.hide-polygons .a9s-annotation,
+.hide-polygons .a9s-annotation * {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 .pagination {
   position: fixed;
   bottom: 40px; /* Adjust as needed */
