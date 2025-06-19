@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/digital-anon-dev/static/css/main.bffc99d6.css",
-    "main.js": "/digital-anon-dev/static/js/main.55cb9965.js",
+    "main.css": "/digital-anon-dev/static/css/main.7ee286cf.css",
+    "main.js": "/digital-anon-dev/static/js/main.f0e03624.js",
     "static/js/488.33557243.chunk.js": "/digital-anon-dev/static/js/488.33557243.chunk.js",
     "static/media/Junicode.woff": "/digital-anon-dev/static/media/Junicode.37e52cd39d317a569d3d.woff",
     "index.html": "/digital-anon-dev/index.html",
-    "main.bffc99d6.css.map": "/digital-anon-dev/static/css/main.bffc99d6.css.map",
-    "main.55cb9965.js.map": "/digital-anon-dev/static/js/main.55cb9965.js.map",
+    "main.7ee286cf.css.map": "/digital-anon-dev/static/css/main.7ee286cf.css.map",
+    "main.f0e03624.js.map": "/digital-anon-dev/static/js/main.f0e03624.js.map",
     "488.33557243.chunk.js.map": "/digital-anon-dev/static/js/488.33557243.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bffc99d6.css",
-    "static/js/main.55cb9965.js"
+    "static/css/main.7ee286cf.css",
+    "static/js/main.f0e03624.js"
   ]
 }
