@@ -18,6 +18,11 @@ add {
   vertical-align: super;
   font-size: smaller;
   color: green;
+  line-height: 0.8em
+}
+
+quote {
+  border-bottom: 1px dashed gray;
 }
 
 /* choice elements */

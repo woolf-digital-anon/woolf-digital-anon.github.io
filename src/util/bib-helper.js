@@ -234,6 +234,7 @@ function formatBookSection(author, title, bibl, date) {
   const volume = extractVolume(bibl);
   const pages = extractPages(bibl);
   const url = extractURL(bibl);
+  const formatted_url = url ? `, <a href="${url}" target="_blank">${url}</a>` : '';
   
   let citation = `${author}. "${title}." `;
   
@@ -262,7 +263,7 @@ function formatBookSection(author, title, bibl, date) {
   }
   
   if (url) {
-    citation += `, <a href="${URL} target="_blank">${url}</a>`
+    citation += formatted_url
   }
   
   citation += '.';
@@ -274,6 +275,7 @@ function formatDictionaryEntry(author, title, bibl, date) {
   const containerTitle = extractContainerTitle(bibl);
   const publisher = extractPublisher(bibl);
   const url = extractURL(bibl);
+  const formatted_url = url ? `, <a href="${url}" target="_blank">${url}</a>` : '';
   
   let citation = '';
   
@@ -294,7 +296,7 @@ function formatDictionaryEntry(author, title, bibl, date) {
   citation += `${date}`;
   
   if (url) {
-    citation += `, <a href="${URL} target="_blank">${url}</a>`
+    citation += formatted_url
   }
   
   citation += '.';
@@ -306,6 +308,7 @@ function formatWebpage(author, title, bibl, date) {
   const containerTitle = extractContainerTitle(bibl);
   const publisher = extractPublisher(bibl);
   const url = extractURL(bibl);
+  const formatted_url = url ? `, <a href="${url}" target="_blank">${url}</a>` : '';
   const accessDate = extractAccessDate(bibl);
   
   let citation = `${author}. "${title}." `;
@@ -321,7 +324,7 @@ function formatWebpage(author, title, bibl, date) {
   citation += `${date}`;
   
   if (url) {
-    citation += `, <a href="${URL} target="_blank">${url}</a>`
+    citation += formatted_url
   }
   
   if (accessDate) {
