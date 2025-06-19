@@ -1,0 +1,139 @@
+{
+  "rawDocs": [
+    {
+      "text": "The influence of the",
+      "facs": "#facs__eSc_line_0e6b565f",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "The Reader",
+      "facs": "#facs__eSc_line_8847a122",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "You will comp",
+      "facs": "#facs__eSc_line_6e3125aa",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "That is because the reader is now",
+      "facs": "#facs__eSc_line_7c8eab0e",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "That is uniquely because the reader is now",
+      "facs": "#facs__eSc_line_626e63a9",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "The reader",
+      "facs": "#facs__eSc_line_27d54f17",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "And here we come upon one of the",
+      "facs": "#facs__eSc_line_9667249b",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    },
+    {
+      "text": "It is the due to the absence, today,",
+      "facs": "#facs__eSc_line_46d34005",
+      "page": 1,
+      "page_name": "m1-8-8-1"
+    }
+  ],
+  "index": {
+    "keys": [
+      {
+        "path": [
+          "text"
+        ],
+        "id": "text",
+        "weight": 1,
+        "src": "text",
+        "getFn": null
+      }
+    ],
+    "records": [
+      {
+        "i": 0,
+        "$": {
+          "0": {
+            "v": "The influence of the",
+            "n": 0.5
+          }
+        }
+      },
+      {
+        "i": 1,
+        "$": {
+          "0": {
+            "v": "The Reader",
+            "n": 0.707
+          }
+        }
+      },
+      {
+        "i": 2,
+        "$": {
+          "0": {
+            "v": "You will comp",
+            "n": 0.577
+          }
+        }
+      },
+      {
+        "i": 3,
+        "$": {
+          "0": {
+            "v": "That is because the reader is now",
+            "n": 0.378
+          }
+        }
+      },
+      {
+        "i": 4,
+        "$": {
+          "0": {
+            "v": "That is uniquely because the reader is now",
+            "n": 0.354
+          }
+        }
+      },
+      {
+        "i": 5,
+        "$": {
+          "0": {
+            "v": "The reader",
+            "n": 0.707
+          }
+        }
+      },
+      {
+        "i": 6,
+        "$": {
+          "0": {
+            "v": "And here we come upon one of the",
+            "n": 0.354
+          }
+        }
+      },
+      {
+        "i": 7,
+        "$": {
+          "0": {
+            "v": "It is the due to the absence, today,",
+            "n": 0.354
+          }
+        }
+      }
+    ]
+  }
+}
