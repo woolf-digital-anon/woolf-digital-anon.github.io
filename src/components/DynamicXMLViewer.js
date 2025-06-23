@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useRef, useState} from 'react'
 import XMLViewer from 'react-xml-viewer'
-import {Button} from "react-bootstrap";
+import {Button, Dropdown} from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro'
@@ -179,6 +179,21 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
                     <Button variant="light" title={'Drag and move'} className="drag-handle">
                         <FontAwesomeIcon icon={solid("up-down-left-right")} />
                     </Button>
+
+                    <DropdownButton variant="light" className="" title="Key" align="start">
+                        <div>
+                            <Dropdown.Item><add>Addition</add></Dropdown.Item>
+                            <Dropdown.Item><del>Deletion</del></Dropdown.Item>
+                            <Dropdown.Item><a href="#">Reference</a></Dropdown.Item>
+                            <Dropdown.Item>
+                                <choice>
+                                    <sic>Typo</sic>
+                                    <corr>Correction</corr>
+                                </choice>
+                            </Dropdown.Item>
+                            <Dropdown.Item><quote>Quotation</quote></Dropdown.Item>
+                        </div>
+                    </DropdownButton>
 
                     <DropdownButton variant="light" className="ms-auto" title="View Options" align="end" >
                         <div className="px-3 py-2 d-flex align-items-center justify-content-between">
