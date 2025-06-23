@@ -219,7 +219,7 @@ function formatBook(author, title, bibl, date) {
   citation += `${date}`;
   
   if (url) {
-    citation += `, <a href="${URL} target="_blank">${url}</a>`;
+    citation += `, <a href="${url} target="_blank">${url}</a>`;
   }
   
   citation += '.';
