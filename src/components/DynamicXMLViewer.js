@@ -180,8 +180,10 @@ export function DynamicXMLViewer({onSelection, setSelection, currentPage, setAnn
                         <FontAwesomeIcon icon={solid("up-down-left-right")} />
                     </Button>
 
-                    <DropdownButton variant="light" className="" title="Key" align="start">
-                        <div>
+                    <DropdownButton variant="light" className="p2" title={
+                        <FontAwesomeIcon icon={solid("key")} />
+                    }>
+                        <div size="sm">
                             <Dropdown.Item><add>Addition</add></Dropdown.Item>
                             <Dropdown.Item><del>Deletion</del></Dropdown.Item>
                             <Dropdown.Item><a href="#">Reference</a></Dropdown.Item>
