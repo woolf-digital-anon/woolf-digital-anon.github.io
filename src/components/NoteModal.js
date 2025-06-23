@@ -504,132 +504,136 @@ return (
       size="xl"
     >
       <Modal.Header closeButton>
-        <div className="d-flex align-items-center w-100">
-          {/* Navigation buttons on the left */}
-          <div className="me-3">
-            <Button 
-              variant="outline-secondary" 
-              size="sm" 
-              onClick={goBack}
-              disabled={!canGoBack()}
-              title="Go back (Alt + ←)"
-              className="me-2"
-            >
-              ←
-            </Button>
-            <Button 
-              variant="outline-secondary" 
-              size="sm" 
-              onClick={goForward}
-              disabled={!canGoForward()}
-              title="Go forward (Alt + →)"
-            >
-              →
-            </Button>
-          </div>
-          
-          {/* Title section - takes up remaining space */}
-          <div className="flex-grow-1 me-3">
-            <Modal.Title>{modalTitle}</Modal.Title>
-            {noteHistory.length > 1 && (
-              <div className="d-flex flex-column">
-                {(() => {
-                  const { prevTitle, nextTitle } = getNavigationContext();
-                  return (
-                    <div className="d-flex justify-content-between">
-                      <small className="text-muted" style={{ maxWidth: '45%' }}>
-                        {prevTitle && (
-                          <span title={`Previous: ${prevTitle}`}>
-                            ← {prevTitle.length > 20 ? prevTitle.substring(0, 20) + '...' : prevTitle}: Previous
-                          </span>
-                        )}
-                      </small>
-                      <small className="text-muted" style={{ maxWidth: '45%' }}>
-                        {nextTitle && (
-                          <span title={`Next: ${nextTitle}`}>
-                            Next: {nextTitle.length > 20 ? nextTitle.substring(0, 20) + '...' : nextTitle} →
-                          </span>
-                        )}
-                      </small>
-                    </div>
-                  );
-                })()}
-              </div>
-            )}
-          </div>
-          
-          {/* Search Bar on the right */}
-          <div className="position-relative" style={{ width: '250px' }}>
-            <InputGroup size="sm">
-              <Form.Control
-                id="note-search-input"
-                type="text"
-                placeholder="Search annotations... (Ctrl+F)"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-              {searchQuery && (
-                <Button 
-                  variant="outline-secondary" 
-                  onClick={clearSearch}
-                  size="sm"
-                >
-                  <FontAwesomeIcon icon={solid("times")} />
-                </Button>
-              )}
-              <Button variant="outline-secondary" disabled size="sm">
-                <FontAwesomeIcon icon={solid("search")} />
-              </Button>
-            </InputGroup>
-            
-            {/* Search Results Dropdown */}
-            {showSearchResults && (
-              <div 
-                style={{ 
-                  position: 'absolute', 
-                  top: '100%', 
-                  left: 0, 
-                  right: 0, 
-                  zIndex: 1000,
-                  maxHeight: '300px',
-                  overflowY: 'auto',
-                  backgroundColor: 'white',
-                  border: '1px solid #dee2e6',
-                  borderRadius: '0.375rem',
-                  boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.15)'
-                }}
+        <div className="d-flex flex-column w-100">
+          {/* Main header row */}
+          <div className="d-flex align-items-center w-100 mb-2">
+            {/* Navigation buttons on the left */}
+            <div className="me-3">
+              <Button 
+                variant="outline-secondary" 
+                size="sm" 
+                onClick={goBack}
+                disabled={!canGoBack()}
+                title="Go back (Alt + ←)"
+                className="me-2"
               >
-                {isSearching ? (
-                  <div className="p-3 text-center">
-                    <FontAwesomeIcon icon={solid("spinner")} spin /> Searching...
-                  </div>
-                ) : searchResults.length > 0 ? (
-                  <ListGroup variant="flush">
-                    {searchResults.map(result => (
-                      <ListGroup.Item 
-                        key={result.id}
-                        action
-                        onClick={() => handleSearchResultClick(result.id)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <div className="d-flex justify-content-between align-items-start">
-                          <div className="flex-grow-1">
-                            <h6 className="mb-1">{result.title}</h6>
-                            <p className="mb-1 text-muted small">{result.snippet}</p>
-                            <small className="text-muted">{result.type}</small>
-                          </div>
-                        </div>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                ) : (
-                  <div className="p-3 text-center text-muted">
-                    No results found for "{searchQuery}"
-                  </div>
+                ←
+              </Button>
+              <Button 
+                variant="outline-secondary" 
+                size="sm" 
+                onClick={goForward}
+                disabled={!canGoForward()}
+                title="Go forward (Alt + →)"
+              >
+                →
+              </Button>
+            </div>
+            
+            {/* Title section - takes up remaining space */}
+            <div className="flex-grow-1 me-3">
+              <Modal.Title className="mb-0">{modalTitle}</Modal.Title>
+            </div>
+            
+            {/* Search Bar on the right */}
+            <div className="position-relative" style={{ width: '250px' }}>
+              <InputGroup size="sm">
+                <Form.Control
+                  id="note-search-input"
+                  type="text"
+                  placeholder="Search explanatory notes... (Ctrl+F)"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+                {searchQuery && (
+                  <Button 
+                    variant="outline-secondary" 
+                    onClick={clearSearch}
+                    size="sm"
+                  >
+                    <FontAwesomeIcon icon={solid("times")} />
+                  </Button>
                 )}
-              </div>
-            )}
+                <Button variant="outline-secondary" disabled size="sm">
+                  <FontAwesomeIcon icon={solid("search")} />
+                </Button>
+              </InputGroup>
+              
+              {/* Search Results Dropdown */}
+              {showSearchResults && (
+                <div 
+                  style={{ 
+                    position: 'absolute', 
+                    top: '100%', 
+                    left: 0, 
+                    right: 0, 
+                    zIndex: 1000,
+                    maxHeight: '300px',
+                    overflowY: 'auto',
+                    backgroundColor: 'white',
+                    border: '1px solid #dee2e6',
+                    borderRadius: '0.375rem',
+                    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.15)'
+                  }}
+                >
+                  {isSearching ? (
+                    <div className="p-3 text-center">
+                      <FontAwesomeIcon icon={solid("spinner")} spin /> Searching...
+                    </div>
+                  ) : searchResults.length > 0 ? (
+                    <ListGroup variant="flush">
+                      {searchResults.map(result => (
+                        <ListGroup.Item 
+                          key={result.id}
+                          action
+                          onClick={() => handleSearchResultClick(result.id)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <div className="d-flex justify-content-between align-items-start">
+                            <div className="flex-grow-1">
+                              <h6 className="mb-1">{result.title}</h6>
+                              <p className="mb-1 text-muted small">{result.snippet}</p>
+                            </div>
+                          </div>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  ) : (
+                    <div className="p-3 text-center text-muted">
+                      No results found for "{searchQuery}"
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
+
+          {/* Navigation context row - only show if there's history */}
+          {noteHistory.length > 1 && (
+            <div className="d-flex justify-content-between align-items-center text-muted" style={{ fontSize: '0.875rem' }}>
+              {(() => {
+                const { prevTitle, nextTitle } = getNavigationContext();
+                return (
+                  <>
+                    <div style={{ maxWidth: '45%' }}>
+                      {prevTitle && (
+                        <span title={`Previous: ${prevTitle}`} className="text-decoration-none">
+                          ← {prevTitle.length > 30 ? prevTitle.substring(0, 30) + '...' : prevTitle}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ maxWidth: '45%' }} className="text-end">
+                      {nextTitle && (
+                        <span title={`Next: ${nextTitle}`} className="text-decoration-none">
+                          {nextTitle.length > 30 ? nextTitle.substring(0, 30) + '...' : nextTitle} →
+                        </span>
+                      )}
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          )}
         </div>
       </Modal.Header>
       <Modal.Body 
