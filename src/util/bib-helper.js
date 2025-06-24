@@ -46,7 +46,7 @@ export const getWorksCited = (element) => {
   });
 
   if (citations.length > 0) {
-    return '<h5>Works Cited</h5><span class="worksCited">' + 
+    return '<hr /><h5>Works Cited</h5><span class="worksCited">' + 
             citations.map(citation => `<p >${citation}</p>`).join('') + 
             '</span>';
   }
