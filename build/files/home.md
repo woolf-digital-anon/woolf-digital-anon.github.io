@@ -2,7 +2,7 @@
 
 ___
 
-_The Digital 'Anon'_ is a digital, genetic edition of Virginia Woolf's final, unfinished history of English literature.
+_The Digital 'Anon'_ is a digital edition of Virginia Woolf's final, unfinished history of English literature.
 
 In the final years of her life, Woolf's thoughts turned to the past and she began work on three historical projects. One was the novel, _Between the Acts_ (1941), another the unfinished memoir 'A Sketch of the Past' (1976, second ed. 1989). The most fragmentary, though, was the literary history she called, variously, 'Reading at Random' or 'Turning the Page', but which has become better known today by the dual title of 'Anon' and 'The Reader'.
 
