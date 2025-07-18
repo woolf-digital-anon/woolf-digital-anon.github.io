@@ -1,7 +1,3 @@
-# About This Website
+# About the Edition
 
-This is a dummy page about the project
-
-## Dataset and Reusability
-
-Replace the sample XML with your own by following the existing folder structure.
+Stuff goes here i guess

@@ -28,13 +28,14 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/about/citations" element={<AboutCitations />} />
                 <Route path="/about/credits" element={<AboutCredits />} />
                 <Route path="/about/documents" element={<AboutDocuments />} />
                 <Route path="/about/project" element={<AboutProject />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/collection/:collectionId" element={<Collection />} />
                 <Route path="/help" element={<Help />} />
+                <Route path="/help/citations" element={<AboutCitations />} />
+
                 <Route path="/collection/:collectionId/page/:pageId" element={<XMLViewerContainer />} />
             </Routes>
             <Nav className="bg-light fixed-bottom">

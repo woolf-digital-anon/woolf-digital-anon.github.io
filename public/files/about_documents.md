@@ -1,7 +1,17 @@
-# About This Website
+# About the 'Anon' Drafts
 
-This is a dummy page about the drafts.
+## A Brief History of Anonymity
 
-## Dataset and Reusability
+words go here
 
-Replace the sample XML with your own by following the existing folder structure.
+## What's in a Name?
+
+words go here
+
+## Who was Anon?
+
+words go here
+
+## Some Pathways to Follow
+
+words go here

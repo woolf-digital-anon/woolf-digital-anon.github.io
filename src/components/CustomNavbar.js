@@ -38,20 +38,24 @@ export function CustomNavbar({ helperFunctions = {} }) {
                             </NavDropdown>
                         )}
                         <NavDropdown title="About">
-                            <NavDropdown.Item as={Link} to="/about/citations">
-                                Citations
+                            <NavDropdown.Item as={Link} to="/about/documents">
+                                About the Drafts
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/about/project">
+                                About the Edition
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/about/credits">
                                 Credits
                             </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/about/documents">
-                                Documents
+                        </NavDropdown>
+                        <NavDropdown title="Help">
+                            <NavDropdown.Item as={Link} to="/help">
+                                How-to
                             </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/about/project">
-                                Project
+                            <NavDropdown.Item as={Link} to="/help/citations">
+                                Citations
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link as={Link} to="/help">Help</Nav.Link>
                         <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
