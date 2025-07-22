@@ -70,18 +70,21 @@ choice:hover>sic {
 span.worksCited {
   text-indent: 3em hanging each-line;
   line-height: 1.5;
-}
 
-span.worksCited>p {
-  margin-bottom: 0.5em;
+  & p {
+    margin-bottom: 0.5em;
+  }
 }
 
 article {
-  margin: 1em 3em;
-  padding: 2em;
+  padding: 2em 5em;
   border: 1px solid #ccc;
   border-radius: 8px;
   & a {
     color: darkslateblue;
+  }
+  & h2, h3, h4 {
+    margin-top: 1.0em;
+    margin-bottom: 0.5em;
   }
 }

@@ -1,6 +1,6 @@
 # [About the 'Anon' Drafts](#about-the-anon-drafts)
 
-This page is an introduction to the literary-historical project Woolf worked on in the final months of their life, and its existence as a constellation of draft fragments. If you want to learn more about _The Digital 'Anon'_ as an edition, please see the [About the Edition](LINK).
+This page is an introduction to the literary-historical project Woolf worked on in the final months of their life, to its thematics and its narrative. If you want to learn more about _The Digital 'Anon'_ as an edition, and the documents the edition is based upon, please see the [About the Edition](LINK).
 
 **Contents**
 
@@ -8,7 +8,7 @@ This page is an introduction to the literary-historical project Woolf worked on 
   - [A Brief History of Anonymity](#a-brief-history-of-anonymity)
   - [Who was Anon?](#who-was-anon)
   - [Some Pathways to Follow](#some-pathways-to-follow)
-  - [Bibliography](#bibliography)
+    - [Bibliography](#bibliography)
 
 ___
 
@@ -27,7 +27,7 @@ ___
 
 ## [Who was Anon?](#who-was-anon)
 
-words go here
+Woolf's literary history is not premised upon the big names of the English literary canon. Chaucer and Malory, Spenser and Sidney, Shakespeare and Marlowe are all present, and Woolf discusses their works to some degree, but they are less important to the narrative than Anon, Woolf's figuration for the anonymous ballad tradition that prefigures and makes possible English literary language.
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 words go here
 
-## [Bibliography](#bibliography)
+### [Bibliography](#bibliography)
 
 Gualtieri, Elena. _Virginia Woolf’s Essays: Sketching the Past_. Palgrave Macmillan, 2000.
 
