@@ -1,10 +1,14 @@
-# About the 'Anon' Drafts
+# [About the 'Anon' Drafts](#about-the-anon-drafts)
 
 This page is an introduction to the literary-historical project Woolf worked on in the final months of their life, and its existence as a constellation of draft fragments. If you want to learn more about _The Digital 'Anon'_ as an edition, please see the [About the Edition](LINK).
 
 **Contents**
 
-1. [A Brief History of Anonymity](#a-brief-history-of-anonymity)
+- [About the 'Anon' Drafts](#about-the-anon-drafts)
+  - [A Brief History of Anonymity](#a-brief-history-of-anonymity)
+  - [Who was Anon?](#who-was-anon)
+  - [Some Pathways to Follow](#some-pathways-to-follow)
+  - [Bibliography](#bibliography)
 
 ___
 
@@ -19,33 +23,33 @@ On January 13, 1932, Woolf wrote in her diary that she had conceived of a projec
 Woolf keeps working at this project almost until her death. On 01 February of that year, she writes to Ethel Smyth that she is 'reading the whole of English literature through. By the time I've reached Shakespeare the bombs will be falling. So I’ve arranged a very nice last scene: reading Shakespeare, having forgotten my gas mask, I shall fade far away, and quite forget...' (_Letters_ 6 475). She quickly comes to an impasse, though, writing again to Smyth on 01 March that she is 'at the moment trying, without the least success, to write an article or two for a new Common Reader. I am stuck in Elizabethan plays. I cant move back or forwards. I've read too much, but not enough' (475). A week later, she writes again about the project in her diary, but that is the last time it appears in her personal writings before her death on 28 March.
 
 From her first reading notes in September 1940, Woolf wrote some 273 pages of draft material spread across 43 different draft fragments. These variously narrate the birth of English literary language in the oral ballad tradition, the persistence of that tradition in the Renaissance playhouse, and the abrupt end of anonymous creation in the first half of the seventeenth century. In some fragments, this mode of anonymous and collective creation comes to a halt with the shuttering of the playhouse in 1642; in others it comes with the 1621 publication of Robert Burton's _The Anatomy of Melancholy_. It's worth mentioning at this juncture that there is no single draft in which Woolf inscribes her narrative. Rather, it emerges as Woolf drafts and redrafts, and it emerges from the subtle differences between each drafts. This invites a kind of lateral reading between fragments. I provide some examples of fragments where readers can see narratives emerging in this way [below](LINK), and an example of reading laterally across drafts in Phillips (2024).
-
 ___
 
-## What's in a Name?
+## [Who was Anon?](#who-was-anon)
 
 words go here
 
 ___
 
-## Who was Anon?
+## [Some Pathways to Follow](#some-pathways-to-follow)
 
 words go here
 
-___
-
-## Some Pathways to Follow
-
-words go here
-
-### Bibliography
+## [Bibliography](#bibliography)
 
 Gualtieri, Elena. _Virginia Woolf’s Essays: Sketching the Past_. Palgrave Macmillan, 2000.
 
 Phillips, Joshua. ‘Drafting “Anon” and Killing Anon: Virginia Woolf and the Genesis of English Literary Language’. _Genetic Narratology: Analysing Narrative across Versions_, edited by Dirk Van Hulle, Open Book Publishers, 2024, pp. 133–50. Access here: [DOI](https://doi.org/10.11647/obp.0426.08).
 
+Silver, Brenda R. ‘“Anon” and “The Reader”: Virginia Woolf’s Last Essays’. _Twentieth Century Literature_, vol. 25, no. 3/4, 1979, pp. 356–441.
 
-Woolf, Virginia. _The Diary of Virginia Woolf_. Edited by Anne Olivier Bell and Quentin Bell, Penguin, 1977.
+Woolf, Virginia. RN2. [Holograph Reading Notes] Notes for Reading at Random. Holograph Notebook, Dated Sept. 18, 1940. 8p. 1940. Henry W. and Albert A. Berg Collection of English Literature, Berg Coll. MSS Woolf.
+
+---. M.45. Anon. Holograph Fragment, Unsigned, Dated Nov. 24, 1940. 11p. Henry W. and Albert A. Berg Collection of English Literature, Berg Coll. MSS Woolf.
+
+---. M.53: Anon. Typescript Fragment, with the Author’s MS Correction, Dated Nov. 24, 1940, 26p. Henry W. and Albert A. Berg Collection of English Literature, Berg Coll. MSS Woolf.
+
+---. _The Diary of Virginia Woolf_. Edited by Anne Olivier Bell and Quentin Bell, Penguin, 1977.
 
 ---. _The Letters of Virginia Woolf_. Edited by Nigel Nicolson and Joanne Trautmann Banks, The Hogarth Press, 1975.
 

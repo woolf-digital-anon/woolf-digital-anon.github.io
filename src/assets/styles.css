@@ -78,7 +78,7 @@ span.worksCited>p {
 
 article {
   margin: 1em 3em;
-  padding: 1em;
+  padding: 2em;
   border: 1px solid #ccc;
   border-radius: 8px;
   & a {
