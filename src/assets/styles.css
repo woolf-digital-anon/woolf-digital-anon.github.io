@@ -75,3 +75,13 @@ span.worksCited {
 span.worksCited>p {
   margin-bottom: 0.5em;
 }
+
+article {
+  margin: 1em 3em;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  & a {
+    color: darkslateblue;
+  }
+}
