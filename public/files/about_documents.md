@@ -9,8 +9,7 @@ This page is an introduction to the literary-historical project Woolf worked on 
   - [Who was Anon?](#who-was-anon)
     - [Dead to Begin With](#dead-to-begin-with)
     - [Anonymity Revived?](#anonymity-revived)
-  - [Some Pathways to Follow](#some-pathways-to-follow)
-    - [Bibliography](#bibliography)
+      - [Bibliography](#bibliography)
 
 ___
 
@@ -45,11 +44,7 @@ How does Anon help to think peace into existence? Anon may be dead, but Woolf tr
 
 ___
 
-## [Some Pathways to Follow](#some-pathways-to-follow)
-
-words go here
-
-### [Bibliography](#bibliography)
+#### [Bibliography](#bibliography)
 
 Gualtieri, Elena. _Virginia Woolf’s Essays: Sketching the Past_. Palgrave Macmillan, 2000.
 

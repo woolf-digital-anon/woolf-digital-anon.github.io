@@ -16,6 +16,7 @@ import AboutCitations from "./components/AboutCitations";
 import AboutCredits from "./components/AboutCredits";
 import AboutDocuments from "./components/AboutDocuments";
 import AboutProject from "./components/AboutProject";
+import AboutPathways from "./components/AboutPathways";
 import Contact from "./components/Contact";
 import Help from "./components/Help";
 import {useMeta} from "./components/MetaContext";
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/about/credits" element={<AboutCredits />} />
                 <Route path="/about/documents" element={<AboutDocuments />} />
                 <Route path="/about/project" element={<AboutProject />} />
+                <Route path="/help/pathways" element={<AboutPathways />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/collection/:collectionId" element={<Collection />} />
                 <Route path="/help" element={<Help />} />
