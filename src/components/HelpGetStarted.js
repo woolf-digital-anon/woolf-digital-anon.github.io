@@ -4,11 +4,11 @@ import { CustomNavbar } from "./CustomNavbar";
 import ReactMarkdown from "react-markdown";
 import { FaGithub } from "react-icons/fa";
 
-export default function AboutPathways() {
+export default function HelpGetStarted() {
     const [markdown, setMarkdown] = useState("");
 
     useEffect(() => {
-        fetch(`${process.env.PUBLIC_URL}/files/about_pathways.md`)
+        fetch(`${process.env.PUBLIC_URL}/files/help_get_started.md`)
             .then((res) => res.text())
             .then((text) => setMarkdown(text))
             .catch((err) => console.error("Failed to load about.md", err));

@@ -1,11 +1,11 @@
 
-# [Some Pathways to Follow](#some-pathways-to-follow)
+# [Get Started](#get-started)
 
 This page does... whatever.
 
 **Contents**
 
-- [Some Pathways to Follow](#some-pathways-to-follow)
+- [Get Started](#get-started)
   - [Anon's Biography](#anons-biography)
   - [Malory and Arthuriana](#malory-and-arthuriana)
   - [Spenser on the Threshold of English Poetry](#spenser-on-the-threshold-of-english-poetry)

@@ -53,11 +53,11 @@ export function CustomNavbar({ helperFunctions = {} }) {
                             <NavDropdown.Item as={Link} to="/help">
                                 How-to
                             </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/help/pathways">
-                                Pathways
-                            </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/help/citations">
                                 Citations
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/help/get-started">
+                                Where to Start?
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
