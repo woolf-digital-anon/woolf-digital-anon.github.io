@@ -1,4 +1,3 @@
-
 # [Get Started](#get-started)
 
 This page does... whatever.
