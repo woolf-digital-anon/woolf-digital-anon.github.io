@@ -1,4 +1,19 @@
 [
+        {
+        "path": "rn2",
+        "name": "RN2. [Holograph reading notes] Notes for reading at random. Holograph notebook, dated Sept. 18, 1940. 8p.",
+        "pages": [
+            "rn2-1",
+            "rn2-2",
+            "rn2-3",
+            "rn2-4",
+            "rn2-5",
+            "rn2-6",
+            "rn2-7",
+            "rn2-8"
+        ],
+        "picturesAvailable": true
+    },
     {
         "path": "m1-8-1",
         "name": "M1-8, 1 of 10. [The great Elizabethan house, Penshurst...]. Holograph. In [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 60-76. 9p.",
@@ -59,7 +74,7 @@
     },
     {
         "path": "m1-8-4",
-        "name": "M1-8, 4 of 10. [Anon: The loves &amp; hates of the Elizabethans themselves...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 8-16. 9p.",
+        "name": "M1-8, 4 of 10. [Anon: The loves & hates of the Elizabethans themselves...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 8-16. 9p.",
         "pages": [
             "m1-8-4-1",
             "m1-8-4-2",
@@ -99,7 +114,7 @@
     },
     {
         "path": "m1-8-7",
-        "name": "M1-8, 7 of 10. [The Reader: If you have read this brittle &amp; imperfect sketch...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 27-32. 6p.",
+        "name": "M1-8, 7 of 10. [The Reader: If you have read this brittle & imperfect sketch...]. Holograph. In back [Articles, essays, fiction and reviews], vol. 8 [1938-39], pp. 27-32. 6p.",
         "pages": [
             "m1-8-7-1",
             "m1-8-7-2",
@@ -721,21 +736,6 @@
             "m113-8",
             "m113-9",
             "m113-10"
-        ],
-        "picturesAvailable": true
-    },
-    {
-        "path": "rn2",
-        "name": "RN2. [Holograph reading notes] Notes for reading at random. Holograph notebook, dated Sept. 18, 1940. 8p.",
-        "pages": [
-            "rn2-1",
-            "rn2-2",
-            "rn2-3",
-            "rn2-4",
-            "rn2-5",
-            "rn2-6",
-            "rn2-7",
-            "rn2-8"
         ],
         "picturesAvailable": true
     },
