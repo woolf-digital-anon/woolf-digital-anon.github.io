@@ -39,7 +39,7 @@ export function CustomNavbar({ helperFunctions = {} }) {
                         )}
                         <NavDropdown title="About">
                             <NavDropdown.Item as={Link} to="/about/documents">
-                                About the Drafts
+                                About Anon
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/about/project">
                                 About the Edition
