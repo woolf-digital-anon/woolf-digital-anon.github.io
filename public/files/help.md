@@ -1,3 +1,5 @@
-# About This Website
+# How-To Guide
 
-This is a basic help page.
+## Document Viewer
+
+![Document Viewer for The Digital Anon](./how_to_1.png)

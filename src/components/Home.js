@@ -42,8 +42,21 @@ function Home() {
             <Container fluid className="px-4 pt-4 page-container">
                 <Container style={{ textAlign: 'center' }}>
                     <ReactMarkdown>{markdown}</ReactMarkdown>
-                    <Button href="#" size="lg" variant="outline-secondary" style={{ margin: "1.0rem" }}>More about Anon</Button>
-                    <Button href="#" size="lg" variant="outline-secondary" style={{ margin: "1.0rem" }}>More about the edition</Button>
+                    <Button 
+                        size="lg" 
+                        variant="outline-secondary" 
+                        style={{ margin: "1.0rem" }}
+                        onClick={() => navigate('/about/documents')}
+                    >
+                        More about Anon</Button>
+                    <Button 
+                        size="lg" 
+                        variant="outline-secondary" 
+                        style={{ margin: "1.0rem" }}
+                        onClick={() => navigate('/about/project')}
+
+                    >
+                        More about the edition</Button>
                     <br />
                     <br />
                     <h2>Or Browse the Drafts</h2>

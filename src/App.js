@@ -53,8 +53,7 @@ function App() {
                         </Col>
                         <Col className="text-end m-3" style={{fontSize: '10px'}}>
                             <div className="text-end">© copyright statement goes here</div>
-                            {meta.creator ? <div className="text-end">Edited by {meta.creator}</div> : '' }
-                            <div className="text-end">Powered by <a className="text-muted text-decoration-none" href="https://github.com/eXtant-CMG/Necturus-Viewer-Compact" target="_blank">Necturus Compact</a></div>
+                            <div className="text-end">Edited by {meta.creator} | Powered by <a className="text-muted text-decoration-none" href="https://github.com/eXtant-CMG/Necturus-Viewer-Compact" target="_blank">Necturus Compact</a></div>
                         </Col>
                     </Row>
                 </Container>
