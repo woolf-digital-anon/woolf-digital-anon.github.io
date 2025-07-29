@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomNavbar } from "./CustomNavbar";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import ReactMarkdown from "react-markdown";
 
 function Home() {
@@ -39,8 +40,14 @@ function Home() {
             <CustomNavbar helperFunctions={{}} />
 
             <Container fluid className="px-4 pt-4 page-container">
-                <Container style={{ textAlign: 'center', padding: '2rem'}}>
+                <Container style={{ textAlign: 'center' }}>
                     <ReactMarkdown>{markdown}</ReactMarkdown>
+                    <Button href="#" size="lg" variant="outline-secondary" style={{ margin: "1.0rem" }}>More about Anon</Button>
+                    <Button href="#" size="lg" variant="outline-secondary" style={{ margin: "1.0rem" }}>More about the edition</Button>
+                    <br />
+                    <br />
+                    <h2>Or Browse the Drafts</h2>
+                    <hr />
                 </Container>
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {filesInfo.map((collection, index) => {
