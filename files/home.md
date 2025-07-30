@@ -11,5 +11,3 @@ Woolf wrote some 273 pages of material towards this project, scattered across 43
 While some material from Woolf's literary history has been published, no edition has made this whole corpus available: _The Digital 'Anon'_ is the first resource to do so.
 
 ___
-
-## Browse the Drafts
