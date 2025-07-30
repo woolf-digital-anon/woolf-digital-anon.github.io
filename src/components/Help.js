@@ -1,18 +1,18 @@
 import { Fragment, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { CustomNavbar } from "./CustomNavbar";
-import ReactMarkdown from "react-markdown";
-import { FaGithub } from "react-icons/fa";
+// import ReactMarkdown from "react-markdown";
+// import { FaGithub } from "react-icons/fa";
 
 export default function Help() {
-    const [markdown, setMarkdown] = useState("");
+    // const [markdown, setMarkdown] = useState("");
 
-    useEffect(() => {
-        fetch(`${process.env.PUBLIC_URL}/files/help.md`)
-            .then((res) => res.text())
-            .then((text) => setMarkdown(text))
-            .catch((err) => console.error("Failed to load about.md", err));
-    }, []);
+    // useEffect(() => {
+    //     fetch(`${process.env.PUBLIC_URL}/files/help.md`)
+    //         .then((res) => res.text())
+    //         .then((text) => setMarkdown(text))
+    //         .catch((err) => console.error("Failed to load about.md", err));
+    // }, []);
 
     return (
         <Fragment>
@@ -21,7 +21,6 @@ export default function Help() {
             <Container className="px-4 pt-4 page-container">
                 <article className="mb-5">
                    <h1>How-To</h1>
-                   <h2>Document Viewer</h2>
                    <p>This is a visual guide to the main document viewer interface of <i>The Digital 'Anon'</i>.</p> 
                    <img 
                         src={`${process.env.PUBLIC_URL}/files/how_to_1.png`} 

@@ -48,7 +48,7 @@ function Home() {
                         style={{ margin: "1.0rem" }}
                         onClick={() => navigate('/about/documents')}
                     >
-                        More about Anon</Button>
+                        More about Anon...</Button>
                     <Button 
                         size="lg" 
                         variant="outline-secondary" 
@@ -56,11 +56,19 @@ function Home() {
                         onClick={() => navigate('/about/project')}
 
                     >
-                        More about the edition</Button>
+                        More about the edition...</Button>
+                    <Button 
+                        size="lg" 
+                        variant="outline-secondary" 
+                        style={{ margin: "1.0rem" }}
+                        onClick={() => navigate('/help/get-started')}
+
+                    >
+                        Get Started...</Button>
                     <br />
                     <br />
-                    <h2>Or Browse the Drafts</h2>
-                    <hr />
+                    <h2>...Or Browse the Drafts</h2>
+                    <br />
                 </Container>
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
                     {filesInfo.map((collection, index) => {

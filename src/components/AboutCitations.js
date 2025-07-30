@@ -20,30 +20,8 @@ export default function AboutCitations() {
 
             <Container className="px-4 pt-4 page-container">
                 <article className="mb-5">
-                    <h1 className="h1 mb-4">Citations</h1>
                     <ReactMarkdown>{markdown}</ReactMarkdown>
                 </article>
-
-                <footer>
-                    <hr />
-                    <h3 className="h3 mt-4">Powered by Necturus Compact</h3>
-                    <p>
-                        <strong>Necturus Compact</strong> is an open-source React application for browsing and searching XML documents entirely in the browser.
-                        It's designed to be hosted as a static site, with no backend required.
-                    </p>
-                    <p>
-                        The project is developed and maintained by Nooshin Shahidzadeh Asadi at the University of Antwerp.
-                    </p>
-                    <a
-                        href="https://github.com/eXtant-CMG/Necturus-Viewer-Compact"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline-dark d-inline-flex align-items-center"
-                    >
-                        <FaGithub className="me-2" />
-                        View on GitHub
-                    </a>
-                </footer>
             </Container>
         </Fragment>
     );
