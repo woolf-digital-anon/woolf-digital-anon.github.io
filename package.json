@@ -1,7 +1,7 @@
 {
   "name": "necturus-compact",
   "version": "0.1.0",
-  "homepage": "https://joshuaaphillips.github.io/digital-anon-dev",
+  "homepage": "https://digital-anon.com",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.5.2",
