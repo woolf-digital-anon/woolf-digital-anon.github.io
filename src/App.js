@@ -21,8 +21,18 @@ import Help from "./components/Help";
 import {useMeta} from "./components/MetaContext";
 import HelpGetStarted from './components/HelpGetStarted';
 
+import ReactGA from 'react-ga4';
+
 function App() {
     const meta = useMeta();
+
+    useEffect(() => {
+        ReactGA.initialize('G-G1TJMN54L3');
+        ReactGA.send({
+            hitType: "pageview",
+            page: window.location.pathname
+        }, [])
+    })
 
     return (
         <Fragment>
