@@ -6,7 +6,7 @@ import {XMLViewerContainer} from "./components/XMLViewerContainer";
 import {Col, Container, Nav, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {brands} from '@fortawesome/fontawesome-svg-core/import.macro'
-import React from "react";
+import React, { useEffect } from "react";
 import {Fragment} from "react";
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
